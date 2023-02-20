@@ -1,4 +1,4 @@
-@import './base.css';
+@import "./base.css";
 
 body, html {
   margin: 0;
@@ -29,7 +29,7 @@ button {
   align-items: center;
   text-align: center;
   padding: var(--button-padding-height) 0.5em;
-  
+
   font-family: var(--button-font-family);
   font-size: var(--button-font-size);
   font-weight: 600;
@@ -37,7 +37,9 @@ button {
   height: var(--button-height);
   border-radius: var(--button-border-radius);
   border: none;
-  background-color: var(--color-yellow); /*Change this value in '<style scoped>' tag*/
+  background-color: var(
+    --color-yellow
+  ); /*Change this value in '<style scoped>' tag*/
   color: var(--color-dark-blue); /*Change this value in '<style scoped>' tag*/
 }
 
@@ -54,16 +56,20 @@ input[type="text"] {
   display: flex;
   align-items: center;
   padding: var(--button-padding-height) 0.5em;
-  
+
   word-break: break-word;
 
-  font-family: var(--message-font); /*Change this value in '<style scoped>' tag*/
+  font-family: var(
+    --message-font
+  ); /*Change this value in '<style scoped>' tag*/
   font-size: var(--button-font-size);
 
   height: var(--button-height);
   border-radius: var(--button-border-radius);
   border: none;
-  background-color: var(--color-light-blue); /*Change this value in '<style scoped>' tag*/
+  background-color: var(
+    --color-light-blue
+  ); /*Change this value in '<style scoped>' tag*/
   color: var(--color-white-grey); /*Change this value in '<style scoped>' tag*/
 }
 
@@ -74,17 +80,20 @@ textarea {
   padding: var(--button-padding-height) 0.5em;
   resize: none;
   white-space: pre-wrap;
-  
-  font-family: var(--message-font); /*Change this value in '<style scoped>' tag*/
+
+  font-family: var(
+    --message-font
+  ); /*Change this value in '<style scoped>' tag*/
   font-size: var(--button-font-size);
 
   height: var(--button-height);
   border-radius: var(--button-border-radius);
   border: none;
-  background-color: var(--color-light-blue); /*Change this value in '<style scoped>' tag*/
+  background-color: var(
+    --color-light-blue
+  ); /*Change this value in '<style scoped>' tag*/
   color: var(--color-white-grey); /*Change this value in '<style scoped>' tag*/
 }
-
 
 a {
   color: var(--color-yellow);

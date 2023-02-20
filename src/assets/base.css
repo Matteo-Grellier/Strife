@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
 
 :root {
-  --color-main-blue: #2B3542;
-  --color-dark-blue: #1F2630;
-  --color-light-blue: #3D4B5F;
-  --color-yellow: #FFB400;
-  --color-grey: #BEBEBE;
-  --color-white-grey: #EDEDED;
+  --color-main-blue: #2b3542;
+  --color-dark-blue: #1f2630;
+  --color-light-blue: #3d4b5f;
+  --color-yellow: #ffb400;
+  --color-grey: #bebebe;
+  --color-white-grey: #ededed;
 
   --main-font: "Montserrat";
   --message-font: "Open Sans";
@@ -20,7 +20,9 @@
   --message-text-color: var(--color-white-grey);
   --date-text-color: var(--color-grey);
 
-  --message-font-size: var(--font-size-16); /* For message and date next to the username*/
+  --message-font-size: var(
+    --font-size-16
+  ); /* For message and date next to the username*/
   --layout-font-size: var(--font-size-18); /*For layout*/
   --username-font-size: var(--font-size-18); /*For username above post*/
   --date-font-size: var(--font-size-14);
