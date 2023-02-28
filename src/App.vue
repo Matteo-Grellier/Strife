@@ -2,7 +2,8 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
-import Login from './views/Login.vue'
+import Login from './views/LoginView.vue'
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -17,8 +18,10 @@ import Login from './views/Login.vue'
   </header>
 
   <main>
-    <RouterView />
-    <Login />
+    <router-link :to="{ name: 'login'}">
+  login
+</router-link>
+    <RouterView/>
   </main>
 </template>
 
