@@ -2,29 +2,16 @@
 import {Form, Field} from 'vee-validate';
 import * as Yup from 'yup';
 import { useAuthStore } from '@/stores/auth-store';
-
-import { useRouter } from "vue-router";
-const router = useRouter();
 const schema = Yup.object().shape({
-  username: Yup.string().required('Le pseudo est requis'),
-  password: Yup.string().required('Le mot de passe est requis')
+  username: Yup.string().required('The username is required'),
+  password: Yup.string().required('The password is required')
 });
 const authStore = useAuthStore();
- function onSubmit(values: any, { setErrors }: any) {
-   
+  function onSubmit(values: any) {
     const { username, password } = values;
-
-    try {
-      
-  authStore.login(username, password);
-  router.push({ name: "home" });
-
-} catch (error) {
-return setErrors({ apiError: error });
-}
+    return authStore.login(username, password)
 }
 </script>
-
 <template>
   <div>
      
@@ -46,7 +33,7 @@ return setErrors({ apiError: error });
                   Login
               </button>
           </div>
-          <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{errors.apiError}}</div>
+         
       </Form>
   </div>
 </template>

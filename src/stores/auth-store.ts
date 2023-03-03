@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import api from "@/boot/axios";
+import { router } from "@/router";
 
+// const router = useRouter();
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     token: JSON.parse(JSON.stringify(localStorage.getItem("token"))),
@@ -17,9 +19,9 @@ export const useAuthStore = defineStore("auth", {
           this.token = user;
           localStorage.setItem("token", JSON.stringify(user.data.token));
           alert("Connexion Réussi");
+          router.push(this.returnUrl || "/");
         })
         .catch((err) => {
-          console.log(err);
           alert("Connection Failed");
         });
     },
