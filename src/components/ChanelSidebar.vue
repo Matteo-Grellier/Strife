@@ -15,8 +15,8 @@
     <hr/>
     <ul class="channelList">
         <li >
-            <Channel :serverName="yes" serverImg="logo-solo"/>
-            <Channel :serverName="noYes" serverImg="logo-solo"/>
+            <Channel :channelName="yes" channelImg="logo-solo"/>
+            <Channel :channelName="noYes" channelImg="logo-solo"/>
         </li>
     </ul>
     <button id="buttonPlus">

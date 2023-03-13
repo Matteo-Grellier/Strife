@@ -1,18 +1,18 @@
 <script setup lang="ts">
     const props = defineProps<{
-        serverName: string,
-        serverImg: string
+        channelName: string,
+        channelImg: string
     }>();
 
-    const serverRoute = "/" + props.serverName ;
-    const serverImgClean = "/" + props.serverImg + ".png";
+    const channelName = "/" + props.channelName ;
+    const channelImgClean = "/" + props.channelImg + ".png";
 </script>
 
 <template>
   <div class="chanelDiv">
-    <RouterLink :to="serverRoute" class="chanelDiv">
-        <img :src="serverImgClean" :alt="serverImgClean" :title="serverName" class="channelLogo"> 
-        <p class="channelName" >{{ serverName }}</p>
+    <RouterLink :to="channelName" class="chanelDiv">
+        <img :src="channelImgClean" :alt="channelImgClean" :title="channelName" class="channelLogo"> 
+        <p class="channelName" >{{ channelName }}</p>
     </RouterLink>
   </div>
 </template>
