@@ -1,35 +1,97 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: var(--main-font);
+  background-color: var(--color-main-blue);
+  color: var(--color-white-grey);
 }
 
-a,
-.green {
+p {
+  font-family: var(--message-font);
+  font-size: var(--message-font-size);
+}
+
+h3 {
+  font-size: var(--layout-font-size);
+  font-weight: 600;
+}
+
+h4 {
+  font-size: var(--username-font-size);
+  font-weight: 600;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: var(--button-padding-height) 0.5em;
+  
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: 600;
+
+  height: var(--button-height);
+  border-radius: var(--button-border-radius);
+  border: none;
+  background-color: var(--color-yellow); /*Change this value in '<style scoped>' tag*/
+  color: var(--color-dark-blue); /*Change this value in '<style scoped>' tag*/
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button img {
+  margin-right: 0.5em;
+}
+
+input[type="text"] {
+  outline: none;
+  display: flex;
+  align-items: center;
+  padding: var(--button-padding-height) 0.5em;
+  
+  word-break: break-word;
+
+  font-family: var(--message-font); /*Change this value in '<style scoped>' tag*/
+  font-size: var(--button-font-size);
+
+  height: var(--button-height);
+  border-radius: var(--button-border-radius);
+  border: none;
+  background-color: var(--color-light-blue); /*Change this value in '<style scoped>' tag*/
+  color: var(--color-white-grey); /*Change this value in '<style scoped>' tag*/
+}
+
+textarea {
+  outline: none;
+  display: flex;
+  align-items: center;
+  padding: var(--button-padding-height) 0.5em;
+  resize: none;
+  white-space: pre-wrap;
+  
+  font-family: var(--message-font); /*Change this value in '<style scoped>' tag*/
+  font-size: var(--button-font-size);
+
+  height: var(--button-height);
+  border-radius: var(--button-border-radius);
+  border: none;
+  background-color: var(--color-light-blue); /*Change this value in '<style scoped>' tag*/
+  color: var(--color-white-grey); /*Change this value in '<style scoped>' tag*/
+}
+
+
+a {
+  color: var(--color-yellow);
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+a:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
