@@ -1,11 +1,10 @@
 <script setup lang="ts">
     import LibraryAdd from "../assets/LibraryAdd.svg"
-    import Chanel from "../components/Chanel.vue"
+    import Channel from "./Channel.vue"
 
-    const props = defineProps<{
-        serverName: string,
-        serverImg: string
-    }>();
+    const yes = "yes";
+    const noYes = "no-yes"
+
 </script>
 
 <template>
@@ -14,9 +13,10 @@
         <img src="/logo-text.png" alt="STIFE" class="StrifeLogo"> 
     </RouterLink>
     <hr/>
-    <ul>
-        <li>
-            <Chanel :serverName="serverName" serverImg="serverImg"/>
+    <ul class="channelList">
+        <li >
+            <Channel :serverName="yes" serverImg="logo-solo"/>
+            <Channel :serverName="noYes" serverImg="logo-solo"/>
         </li>
     </ul>
     <button id="buttonPlus">
@@ -48,5 +48,9 @@
         width: 30px;
         /* fill: white; */
         /* filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(249deg) brightness(108%) contrast(101%); */
+    }
+
+    .channelList {
+        list-style-type: none;
     }
 </style>

@@ -5,6 +5,6 @@
 <template>
     <main>
         home 
-        <ChannelSidebar serverName="yes" serverImg="yes"/>
+        <ChannelSidebar/>
     </main>
 </template>
