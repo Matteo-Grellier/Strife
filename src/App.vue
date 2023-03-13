@@ -3,7 +3,6 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import Login from './views/LoginView.vue'
-import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -14,16 +13,13 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/login">Login</RouterLink>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/ff">random</RouterLink>
+      <router-link :to="{ name: 'createChannel'}"> Create Channel </router-link>
+
     </nav> 
   </header>
 
   <main>
-    <router-link :to="{ name: 'login'}">
-  login
-</router-link>
-    <router-link :to="{ name: 'home'}"> Home </router-link>
-    <router-link :to="{ name: 'createChannel'}"> Create Channel </router-link>
-
+    <router-link :to="{ name: 'login'}"></router-link>
     <RouterView/>
   </main>
 </template>
