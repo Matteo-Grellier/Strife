@@ -26,7 +26,7 @@ export const useAuthStore = defineStore("auth", {
         });
     },
     getToken: () => {
-      return localStorage.getItem("token");
+      return JSON.parse(localStorage.getItem("token") || "null");
     },
     logout() {
       this.token = null;

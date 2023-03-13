@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, useRouter } from "vue-router";
 import NotFoundView from "../views/404.vue";
 import HomeView from "../views/HomeView.vue";
-import CreateChannelView from "../views/CreateChannelView.vue";
+
 import { useAuthStore } from "@/stores/auth-store";
 
 const isAuthenticated = () => {
@@ -32,7 +32,7 @@ export const router = createRouter({
     {
       path: "/CreateChannel",
       name: "createChannel",
-      component: CreateChannelView,
+      component: () => import("../views/CreateChannelView.vue"),
       beforeEnter() {
         if (!isAuthenticated()) {
           return { name: "login" };
