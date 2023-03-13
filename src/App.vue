@@ -21,6 +21,9 @@ import { RouterLink, RouterView } from 'vue-router'
     <router-link :to="{ name: 'login'}">
   login
 </router-link>
+    <router-link :to="{ name: 'home'}"> Home </router-link>
+    <router-link :to="{ name: 'createChannel'}"> Create Channel </router-link>
+
     <RouterView/>
   </main>
 </template>
