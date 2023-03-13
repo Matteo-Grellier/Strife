@@ -1,25 +1,48 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '../views/LoginView.vue'
-import NotFoundView from '../views/404.vue'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory, useRouter } from "vue-router";
+import NotFoundView from "../views/404.vue";
+import HomeView from "../views/HomeView.vue";
+
+import { useAuthStore } from "@/stores/auth-store";
+
+const isAuthenticated = () => {
+  const auth = useAuthStore();
+  auth.getToken();
+  console.log(auth.getToken());
+  if (auth.getToken() === null) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: LoginView,
+      path: "/login",
+      name: "login",
+      component: () => import("../views/LoginView.vue"),
     },
     {
-      path: '/',
-      name: 'home',
+      path: "/",
+      name: "home",
       component: HomeView,
     },
     {
-      path: '/:pathMatch(.*)*',
-      name: 'not-found',
+      path: "/CreateChannel",
+      name: "createChannel",
+      component: () => import("../views/CreateChannelView.vue"),
+      beforeEnter() {
+        if (!isAuthenticated()) {
+          return { name: "login" };
+        }
+      },
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "not-found",
       component: NotFoundView,
-    }
-  ]
+    },
+  ],
 });
