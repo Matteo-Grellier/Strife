@@ -21,6 +21,18 @@
     .chanelDiv{
         display: flex;
         flex-direction: row;
+        background-color: #1F2630;
+        width: 200px;
+        height: 60px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        align-items: center;
+        padding-left: 2px;
+    }
+
+    .chanelDiv:hover {
+        background-color: #2B3542;
     }
 
     .channelName {

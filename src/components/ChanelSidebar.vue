@@ -8,36 +8,44 @@
 </script>
 
 <template>
-  <div class="ServerSidebar">
-    <RouterLink to="/"> 
-        <img src="/logo-text.png" alt="STIFE" class="StrifeLogo"> 
-    </RouterLink>
-    <hr/>
-    <ul class="channelList">
-        <li >
-            <Channel :serverName="yes" serverImg="logo-solo"/>
-            <Channel :serverName="noYes" serverImg="logo-solo"/>
-        </li>
-    </ul>
-    <button id="buttonPlus">
+  <div class="ChannelSidebar">
+    <div class="upperDiv">
+        <RouterLink to="/"> 
+            <img src="/logo-text.png" alt="STIFE" class="StrifeLogo"> 
+        </RouterLink>
+        <hr class="separator"/>
+        <ul class="channelList">
+            <li >
+                <Channel :serverName="yes" serverImg="logo-solo"/>
+                <Channel :serverName="noYes" serverImg="logo-solo"/>
+            </li>
+        </ul>
+    </div>
+    <button class="buttonPlus">
         <img :src="LibraryAdd" alt="LibraryAdd" class="libraryAdd"> 
     </button>
   </div>
 </template>
 
 <style scoped>
-    .ServerSidebar{
-        max-width: 300px;
+    .ChannelSidebar{
+        flex-direction: column;
+        max-width: 200px;
         background-color: var(--color-dark-blue);
-        height: 100em;
+        height: 100vh;
         padding: 2%;
     }
 
+    .upperDiv {
+        height: 90vh;
+    }
+
     .buttonPlus{
-        padding: 0;
-        height: 40px;
         display: flex;
         align-items: center;
+        justify-content: center;
+        /* position: absolute;
+        bottom: 10px; */
     }
 
     .StrifeLogo{
@@ -45,12 +53,18 @@
     }
 
     .libraryAdd{
-        width: 30px;
-        /* fill: white; */
-        /* filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(249deg) brightness(108%) contrast(101%); */
+        width: 35px;
+        margin-right: 0;
     }
 
     .channelList {
         list-style-type: none;
+        width: 200px;
+        padding: 0;
+    }
+
+    .separator {
+        margin-top: 30px;
+        margin-bottom: 20px;
     }
 </style>
