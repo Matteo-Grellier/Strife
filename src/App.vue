@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from './components/HelloWorld.vue'
+import TheWelcome from './components/TheWelcome.vue'
+import Login from './views/LoginView.vue'
 </script>
 
 <template>
@@ -10,11 +13,14 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/login">Login</RouterLink>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/ff">random</RouterLink>
+      <router-link :to="{ name: 'createChannel'}"> Create Channel </router-link>
+
     </nav> 
   </header>
 
   <main>
-    <RouterView />
+    <router-link :to="{ name: 'login'}"></router-link>
+    <RouterView/>
   </main>
 </template>
 
