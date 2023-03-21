@@ -14,7 +14,6 @@ import Login from './views/LoginView.vue'
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/ff">random</RouterLink>
       <router-link :to="{ name: 'createChannel'}"> Create Channel </router-link>
-
     </nav> 
   </header>
 
