@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import LibraryAdd from "../assets/LibraryAdd.svg"
-    import Channel from "./Channel.vue"
+    import ChannelLink from "./ChannelLink.vue"
 
     const yes = "yes";
     const noYes = "no-yes"
@@ -16,8 +16,8 @@
         <hr class="separator"/>
         <ul class="channelList">
             <li >
-                <Channel :channelName="yes" channelImg="logo-solo"/>
-                <Channel :channelName="noYes" channelImg="logo-solo"/>
+                <ChannelLink :channelName="yes" channelImg="logo-solo"/>
+                <ChannelLink :channelName="noYes" channelImg="logo-solo"/>
             </li>
         </ul>
     </div>
