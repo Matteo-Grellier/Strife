@@ -9,6 +9,17 @@ body, html {
   color: var(--color-white-grey);
 }
 
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--color-main-blue);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--color-light-blue);
+  border-radius: 20px;
+}
+
 p {
   font-family: var(--message-font);
   font-size: var(--message-font-size);
