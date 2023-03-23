@@ -18,22 +18,45 @@ const messages: Message[] = reactive([])
 const isLoaded = ref(false);
 
 onBeforeMount(async () => {
-    const config = {
-        headers: { Authorization: `Bearer ${authStore.getToken()}` }
-    };
-    const response = await api.get(`/protected/channel/${props.channelId}/messages/0`, config)
-
-    messages.push(...response.data);
-    console.log(messages);
-
+    await setMessages();
     isLoaded.value = true
 })
 
-// onMounted(() => isLoaded.value = true)
+const setMessages = async () => {
+    const messagesToAdd = await getMessagesFromApi();
+    messages.unshift(...messagesToAdd);
+}
+
+const getMessagesFromApi = async () => {
+    const offset = messages.length;
+
+    const config = {
+        headers: { Authorization: `Bearer ${authStore.getToken()}` }
+    };
+    const response = await api.get(`/protected/channel/${props.channelId}/messages/${offset}`, config)
+
+    return response.data;
+}
+
+const loadOlderMessages = async () => {
+    isLoaded.value = false
+    await setMessages();
+    isLoaded.value = true
+}
+
+const onScroll = async ({target}: Event) => {
+    const currentElement: Element = target as Element
+
+    //The logic to know if we are at the top of the div is reversed because we used a trick in css (we use column-reverse) : 
+    //So we want to know if we are at the bottom of the div !
+    if(currentElement.scrollTop - currentElement.clientHeight <= -currentElement.scrollHeight) {
+        await loadOlderMessages();
+    }
+}
 
 </script>
 <template>
-    <div class="channel-content">
+    <div class="channel-content" @scroll="onScroll">
         <div class="channel-container">
             <div class="channel-messages-container">
                 <div v-if="!isLoaded" class="channel-spinner">
