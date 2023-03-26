@@ -26,7 +26,7 @@ onBeforeMount(async () => {
     console.log(props.creator, authStore.username)
     currentUserIsModerator.value = (props.creator === authStore.username);
 
-    await createWebSocketConnection();
+    // await createWebSocketConnection();
 })
 
 const createWebSocketConnection = async () => {
@@ -88,7 +88,7 @@ const onScroll = async ({target}: Event) => {
 .channel-content {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column-reverse;
