@@ -1,9 +1,46 @@
 <script setup lang="ts">
     import LibraryAdd from "../assets/LibraryAdd.svg"
-    import ChannelLink from "./ChannelLink.vue"
+    import api from '@/boot/axios';
+    import { useAuthStore } from '@/stores/auth-store'
+    import ChannelLink from "./ChannelLink.vue";
+    import { onBeforeMount, ref } from 'vue';
+    import Spinner from './Spinner.vue';
+    import { useChannelStore } from '@/stores/channel'
 
-    const yes = "yes";
-    const noYes = "no-yes"
+    const channels = ref<ChannelLink[]>([]);
+    const isLoaded = ref(false);
+    const authToken = useAuthStore().getToken();
+    const config = {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    };
+
+    onBeforeMount(async () => {
+        await getChannels();
+        isLoaded.value = true
+    })
+    const getChannels = async () => {
+        await api.get('/protected/user/channels', config)
+        .then(function(response){
+            channels.value = response.data;
+        })
+        .catch(function(error) {
+            console.log('Error:', error);
+        });
+    }
+    interface ChannelLink {
+        name: string;
+        img: string;
+        id: number;
+        creator: string;
+    }
+
+    const channelStore = useChannelStore();
+
+    function selectedChannel(channel:ChannelLink){
+        channelStore.selectedChannel(channel)
+    }
 
 </script>
 
@@ -14,14 +51,20 @@
             <img src="/logo-text.png" alt="STIFE" class="StrifeLogo"> 
         </RouterLink>
         <hr class="separator"/>
-        <ul class="channelList">
+        <div v-if="!isLoaded" class="ChannelLink-spinner">
+            <Spinner/>
+        </div>
+        <div class="channelListContainer">
+        <ul class="channelList" v-if="isLoaded">
             <li >
-                <ChannelLink :channelName="yes" channelImg="logo-solo"/>
-                <ChannelLink :channelName="noYes" channelImg="logo-solo"/>
+                <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
             </li>
         </ul>
     </div>
-    <button class="buttonPlus">
+    </div>
+    
+    
+    <button id="buttonPlus">
         <img :src="LibraryAdd" alt="LibraryAdd" class="libraryAdd"> 
     </button>
   </div>
