@@ -30,10 +30,11 @@
 <style scoped>
     .ChannelSidebar{
         flex-direction: column;
-        max-width: 200px;
+        max-width: 188px;
         background-color: var(--color-dark-blue);
         height: 100vh;
-        padding: 2%;
+        padding-left: 2%;
+        padding-right: 2%;
     }
 
     .upperDiv {
@@ -44,12 +45,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        /* position: absolute;
-        bottom: 10px; */
     }
 
     .StrifeLogo{
         width: 100%;
+        margin-top: 20px;
     }
 
     .libraryAdd{
@@ -64,7 +64,7 @@
     }
 
     .separator {
-        margin-top: 30px;
-        margin-bottom: 20px;
+        margin-top: 20px;
+        margin-bottom: 30px;
     }
 </style>

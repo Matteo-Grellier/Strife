@@ -4,15 +4,14 @@
         channelImg: string
     }>();
 
-    const channelName = "/" + props.channelName ;
     const channelImgClean = "/" + props.channelImg + ".png";
 </script>
 
 <template>
   <div class="chanelDiv">
-    <RouterLink :to="channelName" class="chanelDiv">
-        <img :src="channelImgClean" :alt="channelImgClean" :title="channelName" class="channelLogo"> 
-        <p class="channelName" >{{ channelName }}</p>
+    <RouterLink :to="props.channelName" class="chanelDiv">
+        <img :src="channelImgClean" :alt="channelImgClean" :title="props.channelName" class="channelLogo"> 
+        <h3 class="channelName" >{{ props.channelName }}</h3>
     </RouterLink>
   </div>
 </template>
@@ -29,6 +28,7 @@
         margin-top: 10px;
         align-items: center;
         padding-left: 2px;
+        text-decoration: none;
     }
 
     .chanelDiv:hover {

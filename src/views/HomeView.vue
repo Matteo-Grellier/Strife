@@ -1,17 +1,20 @@
 <script setup lang="ts">
   import ChannelSidebar from "../components/ChannelSidebar.vue";
   import ChannelTopbar from "../components/ChannelTopbar.vue";
+  import MemberSidebar from "../components/MemberSidebar.vue";
 </script>
 
 <template>
   <main>
     <div class="elements">
       <ChannelSidebar class="ChannelSidebar"/>
-      <div class="innerContent">
+      <div class="middlePart">
         <ChannelTopbar channelName="test channel name"/>
-        home
+        <div class="channelContent">
+          home
+        </div>
       </div>
-      <p class="MembersSidebar">members bar</p>
+      <MemberSidebar/>
     </div>
   </main>
 </template>
@@ -26,8 +29,12 @@
     flex: 1;
   }
 
-  .innerContent {
+  .middlePart {
     flex: 3;
+  }
+
+  .channelContent {
+    padding: 2%;
   }
 
   .MembersSidebar {
