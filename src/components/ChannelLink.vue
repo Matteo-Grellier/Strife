@@ -3,9 +3,6 @@
         channelName: string,
         channelImg: string
     }>();
-    console.log(props.channelImg);
-    
-
 </script>
 
 <template >

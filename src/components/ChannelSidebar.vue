@@ -11,6 +11,7 @@
         name: string;
         img: string;
         id: number;
+        creator: string;
     }
 
     interface ChannelResponse extends AxiosResponse {
@@ -19,6 +20,7 @@
 
     const channels = ref<ChannelLink[]>([]);
     const channelTitle = ref("")
+    const channelCreator = ref("")
     const channelImg = ref("")
     const isLoaded = ref(false);
     const JWT = useAuthStore().getToken();
@@ -32,19 +34,15 @@
         await getChannels();
         isLoaded.value = true
     })
-    
     const getChannels = async () => {
         await api.get('/protected/user/channels', config)
         .then(function(response){
             channels.value = response.data;
-            channelTitle.value = channels.value[0].name;
-            channelImg.value = channels.value[0].img;
         })
         .catch(function(error) {
             console.log('Error:', error);
         });
     }
-
 </script>
 
 <template>
