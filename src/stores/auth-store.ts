@@ -5,20 +5,22 @@ import { router } from "@/router";
 // const router = useRouter();
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    token: JSON.parse(JSON.stringify(localStorage.getItem("token"))),
+    token: localStorage.getItem("token"),
+    username: localStorage.getItem("username"),
     returnUrl: null,
   }),
   actions: {
-    login(username: any, password: any) {
+    login(username: string, password: string) {
       api
         .post("/login", {
           username: username,
           password: password,
         })
         .then((user) => {
-          this.token = user;
-          localStorage.setItem("token", JSON.stringify(user.data.token));
-          alert("Connexion Réussi");
+          this.token = user.data.token;
+          this.username = username;
+          localStorage.setItem("token", user.data.token);
+          localStorage.setItem("username", username);
           router.push(this.returnUrl || "/");
         })
         .catch((err) => {
@@ -26,7 +28,7 @@ export const useAuthStore = defineStore("auth", {
         });
     },
     getToken: () => {
-      return JSON.parse(localStorage.getItem("token") || "null");
+      return (localStorage.getItem("token") || "null");
     },
     logout() {
       this.token = null;

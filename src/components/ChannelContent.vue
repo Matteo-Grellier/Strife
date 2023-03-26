@@ -1,26 +1,37 @@
 <script lang="ts" setup>
-import api from '@/boot/axios';
+import api, {webSocketApi} from '@/boot/axios';
 import { onBeforeMount, reactive, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth-store';
 
 import Message from './Message.vue';
 import Spinner from './Spinner.vue';
+import Button from './Button.vue';
 
 const authStore = useAuthStore();
 
 type Props = {
     channelId: number,
+    creator: string,
 }
 
 const props = defineProps<Props>();
 
 const messages: Message[] = reactive([])
 const isLoaded = ref(false);
+const currentUserIsModerator = ref(false);
 
 onBeforeMount(async () => {
     await setMessages();
     isLoaded.value = true
+    console.log(props.creator, authStore.username)
+    currentUserIsModerator.value = (props.creator === authStore.username);
+
+    await createWebSocketConnection();
 })
+
+const createWebSocketConnection = async () => {
+    webSocketApi.get(`/ws/channel/${props.channelId}/token/${authStore.token}`)
+}
 
 const setMessages = async () => {
     const messagesToAdd = await getMessagesFromApi();
@@ -49,7 +60,7 @@ const onScroll = async ({target}: Event) => {
 
     //The logic to know if we are at the top of the div is reversed because we used a trick in css (we use column-reverse) : 
     //So we want to know if we are at the bottom of the div !
-    if(currentElement.scrollTop - currentElement.clientHeight <= -currentElement.scrollHeight) {
+    if((currentElement.scrollHeight + currentElement.scrollTop) - currentElement.clientHeight <= 1) {
         await loadOlderMessages();
     }
 }
@@ -65,6 +76,7 @@ const onScroll = async ({target}: Event) => {
                 <Message v-for="(message, index) of messages" 
                 :message="message" 
                 :previousMessage="(index > 0) ? messages[index-1] : undefined"
+                :showToolbar="currentUserIsModerator"
                 />
             </div>
         </div>

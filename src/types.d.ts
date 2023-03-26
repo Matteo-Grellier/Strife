@@ -1,5 +1,5 @@
 type Message = {
-    channelId : number, 
+    channel_id : number, 
     timestamp : number, 
     author : string, 
     content : MessageContent

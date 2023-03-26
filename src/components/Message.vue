@@ -1,28 +1,25 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { getIsToday, getIsYesterday } from '../utils';
+import MessageToolBar from "./MessageToolBar.vue"
+import api from '@/boot/axios';
+import { useAuthStore } from '@/stores/auth-store';
 
 type Props = {
     message: Message,
-    previousMessage?: Message
+    previousMessage?: Message,
+    showToolbar?: boolean,
 }
-
-// type Message = {
-//     channelId : number, 
-//     timestamp : number, 
-//     author : string, 
-//     content : MessageContent
-// }
-
-// type MessageContent = {
-//     text?: string,
-//     image?: string
-// }
 
 const props = defineProps<Props>()
 
+const authStore = useAuthStore();
+
 const timeOfSentMessage = ref("");
 const isSendInSameTime = ref(false);
+const isUpdatingMessage = ref(false);
+
+const updatedText = ref("");
 
 const getCorrespondingDateAndHours = () => {
     const dateOfMessage = new Date(props.message.timestamp);
@@ -72,27 +69,64 @@ onMounted(() => {
 
 })
 
+const enableUpdatingMessage = (isUpdating: boolean) => {
+    isUpdatingMessage.value = isUpdating;
+    updatedText.value = props.message.content.Text ?? "";
+}
+
+const confirmUpdating = () => {
+    const config = {
+        headers: { Authorization: `Bearer ${authStore.getToken()}` }
+    };
+
+    console.log(props.message)
+
+    api.post(`/protected/channel/${props.message.channel_id}/message/moderate`,
+    {
+        channel_id: props.message.channel_id,
+        timestamp: props.message.timestamp,
+        author: props.message.author,
+        content: {
+            Text: updatedText.value
+        }
+    }, config)
+}
+
 </script>
 <template>
-    <div v-if="!isSendInSameTime" class="message" style="margin-top: 10px">
-        <h1 class="letter-profile">{{ message.author[0].toUpperCase() }}</h1>
-        <div class="message-content">
-            <h4>{{ message.author }}<span class="date"> • {{ timeOfSentMessage }}</span></h4>
-            <p v-if="message.content.Text">{{ message.content.Text }}</p>
-            <img v-else :src="message.content.Image" :alt="`Image from ${message.author}`">
+    <div class="message-component" :style="(isSendInSameTime) ? 'margin-top: 0' : 'margin-top: 10px' ">
+        <div v-if="!isSendInSameTime" class="message">
+            <h1 class="letter-profile">{{ message.author[0].toUpperCase() }}</h1>
+            <div class="message-content">
+                <h4>{{ message.author }}<span class="date"> • {{ timeOfSentMessage }}</span></h4>
+                <textarea v-if="isUpdatingMessage" name="update-content" v-model="updatedText">{{ updatedText }}</textarea>
+                <p v-else-if="message.content.Text">{{ message.content.Text }}</p>
+                <img v-else :src="message.content.Image" :alt="`Image from ${message.author}`">
+            </div>
         </div>
-    </div>
-    <div v-else="isSendInSameTime" class="message">
-        <div class="message-content message-content-inline">
-            <p class="date date-same-time">{{ timeOfSentMessage }}</p>
-            <p v-if="message.content.Text">{{ message.content.Text }}</p>
-            <img v-else :src="message.content.Image" :alt="`Image from ${message.author}`">
+        <div v-else="isSendInSameTime" class="message">
+            <div class="message-content message-content-inline">
+                <p class="date date-same-time">{{ timeOfSentMessage }}</p>
+                <textarea v-if="isUpdatingMessage" name="update-content" v-model="updatedText">{{ updatedText }}</textarea>
+                <p v-else-if="message.content.Text">{{ message.content.Text }}</p>
+                <img v-else :src="message.content.Image" :alt="`Image from ${message.author}`">
+            </div>
         </div>
+        <MessageToolBar 
+        v-if="showToolbar" 
+        :onUpdating:message="enableUpdatingMessage" 
+        :onUpdateconfirm:message="confirmUpdating"
+        class="toolbar"/>
     </div>
+
 </template>
 <style scoped>
 h1, .message-content, .message-content h4, .message-content p {
     margin: 0;
+}
+
+.message-content {
+    width: 100%;
 }
 
 .message-content h4 {
@@ -107,13 +141,16 @@ h1, .message-content, .message-content h4, .message-content p {
 
 .message {
     display: flex;
-    /* align-items: center; */
-    /* margin: 5px 0; */
+    width: 100%;
     padding: 5px 15px;
 }
 
-.message:hover {
-    /* background-color: var(--color-main-blue) */
+.message-component {
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-component:hover {
     transition: all 0.2s ease-in-out;
     backdrop-filter: brightness(0.9);
 }
@@ -131,6 +168,10 @@ h1, .message-content, .message-content h4, .message-content p {
     text-align: center;
 }
 
+.message-content textarea {
+    width: 100%;
+}
+
 .message-content-inline {
     display: flex;
     align-items: center;
@@ -142,8 +183,20 @@ h1, .message-content, .message-content h4, .message-content p {
     min-width: 60px;
 }
 
-.message:hover .date-same-time {
+.toolbar {
+    opacity: 0;
+    visibility: hidden;
+    margin-right: 20px;
+}
+
+.message-component:hover .date-same-time {
     transition: all 0.2s ease-in-out;
+    visibility: visible;
+}
+
+.message-component:hover .toolbar {
+    transition: all 0.2s ease-in-out;
+    opacity: 1;
     visibility: visible;
 }
 .message-content img {
