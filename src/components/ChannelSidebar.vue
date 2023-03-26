@@ -1,9 +1,49 @@
 <script setup lang="ts">
     import LibraryAdd from "../assets/LibraryAdd.svg"
-    import ChannelLink from "./ChannelLink.vue"
+    import api from '@/boot/axios';
+    import { useAuthStore } from '@/stores/auth-store';
+    import ChannelLink from './ChannelLink.vue';
+    import { onBeforeMount, ref } from 'vue';
+    import Spinner from './Spinner.vue';
+    import type { AxiosResponse } from 'axios';
+    
+    interface ChannelLink {
+        name: string;
+        img: string;
+        id: number;
+    }
 
-    const yes = "yes";
-    const noYes = "no-yes"
+    interface ChannelResponse extends AxiosResponse {
+        data: ChannelLink[];
+    }
+
+    const channels = ref<ChannelLink[]>([]);
+    const channelTitle = ref("")
+    const channelImg = ref("")
+    const isLoaded = ref(false);
+    const JWT = useAuthStore().getToken();
+    const config = {
+        headers: {
+            Authorization: `Bearer ${JWT}`
+        }
+    };
+
+    onBeforeMount(async () => {
+        await getChannels();
+        isLoaded.value = true
+    })
+    
+    const getChannels = async () => {
+        await api.get('/protected/user/channels', config)
+        .then(function(response){
+            channels.value = response.data;
+            channelTitle.value = channels.value[0].name;
+            channelImg.value = channels.value[0].img;
+        })
+        .catch(function(error) {
+            console.log('Error:', error);
+        });
+    }
 
 </script>
 
@@ -14,12 +54,16 @@
             <img src="/logo-text.png" alt="STIFE" class="StrifeLogo"> 
         </RouterLink>
         <hr class="separator"/>
-        <ul class="channelList">
-            <li >
-                <ChannelLink :channelName="yes" channelImg="logo-solo"/>
-                <ChannelLink :channelName="noYes" channelImg="logo-solo"/>
-            </li>
-        </ul>
+        <div v-if="!isLoaded" class="ChannelLink-spinner">
+            <Spinner/>
+        </div>
+        <div class="channelListContainer">
+            <ul class="channelList" v-if="isLoaded">
+                <li >
+                    <ChannelLink v-for="ChannelLink in channels" :key="ChannelLink.id" :channelName="ChannelLink.name" :channelImg="ChannelLink.img"/>
+                </li>
+            </ul>
+        </div>
     </div>
     <button class="buttonPlus">
         <img :src="LibraryAdd" alt="LibraryAdd" class="libraryAdd"> 

@@ -3,15 +3,16 @@
         channelName: string,
         channelImg: string
     }>();
+    console.log(props.channelImg);
+    
 
-    const channelImgClean = "/" + props.channelImg + ".png";
 </script>
 
-<template>
+<template >
   <div class="chanelDiv">
-    <RouterLink :to="props.channelName" class="chanelDiv">
-        <img :src="channelImgClean" :alt="channelImgClean" :title="props.channelName" class="channelLogo"> 
-        <h3 class="channelName" >{{ props.channelName }}</h3>
+    <RouterLink :to="channelName" class="chanelDiv">
+        <img :src="channelImg" alt="imgNotFound" :title="channelName" class="channelLogo"> 
+        <p class="channelName" >{{ channelName }}</p>
     </RouterLink>
   </div>
 </template>
@@ -33,15 +34,20 @@
 
     .chanelDiv:hover {
         background-color: #2B3542;
+        margin-bottom: 10px;
     }
 
     .channelName {
         margin: 0px;
         margin-left: 10px;
+        display: flex;
+        align-items: center;
     }
 
     .channelLogo {
-        height: 50px;
         width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 15px;
     }
 </style>
