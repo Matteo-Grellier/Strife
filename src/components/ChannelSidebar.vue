@@ -1,32 +1,18 @@
 <script setup lang="ts">
     import LibraryAdd from "../assets/LibraryAdd.svg"
     import api from '@/boot/axios';
-    import { useAuthStore } from '@/stores/auth-store';
-    import ChannelLink from './ChannelLink.vue';
+    import { useAuthStore } from '@/stores/auth-store'
+    import ChannelLink from "./ChannelLink.vue";
     import { onBeforeMount, ref } from 'vue';
     import Spinner from './Spinner.vue';
-    import type { AxiosResponse } from 'axios';
-    
-    interface ChannelLink {
-        name: string;
-        img: string;
-        id: number;
-        creator: string;
-    }
-
-    interface ChannelResponse extends AxiosResponse {
-        data: ChannelLink[];
-    }
+    import { useChannelStore } from '@/stores/channel'
 
     const channels = ref<ChannelLink[]>([]);
-    const channelTitle = ref("")
-    const channelCreator = ref("")
-    const channelImg = ref("")
     const isLoaded = ref(false);
-    const JWT = useAuthStore().getToken();
+    const authToken = useAuthStore().getToken();
     const config = {
         headers: {
-            Authorization: `Bearer ${JWT}`
+            Authorization: `Bearer ${authToken}`
         }
     };
 
@@ -43,6 +29,19 @@
             console.log('Error:', error);
         });
     }
+    interface ChannelLink {
+        name: string;
+        img: string;
+        id: number;
+        creator: string;
+    }
+
+    const channelStore = useChannelStore();
+
+    function selectedChannel(channel:ChannelLink){
+        channelStore.selectedChannel(channel)
+    }
+
 </script>
 
 <template>
@@ -56,14 +55,16 @@
             <Spinner/>
         </div>
         <div class="channelListContainer">
-            <ul class="channelList" v-if="isLoaded">
-                <li >
-                    <ChannelLink v-for="ChannelLink in channels" :key="ChannelLink.id" :channelName="ChannelLink.name" :channelImg="ChannelLink.img"/>
-                </li>
-            </ul>
-        </div>
+        <ul class="channelList" v-if="isLoaded">
+            <li >
+                <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
+            </li>
+        </ul>
     </div>
-    <button class="buttonPlus">
+    </div>
+    
+    
+    <button id="buttonPlus">
         <img :src="LibraryAdd" alt="LibraryAdd" class="libraryAdd"> 
     </button>
   </div>
