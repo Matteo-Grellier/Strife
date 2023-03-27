@@ -145,7 +145,7 @@
         width: 200px;
         padding: 0;
         max-height: 70vh;
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
     }
 

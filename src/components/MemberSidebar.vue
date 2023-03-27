@@ -1,13 +1,10 @@
 <script setup lang="ts">
     import GroupAdd from "../assets/groupAdd.svg"
     import User from "./User.vue"
-    import Spinner from './Spinner.vue';
     import api from '@/boot/axios';
     import { useAuthStore } from '@/stores/auth-store'
     import { onBeforeMount, ref } from 'vue';
     import { useChannelStore } from '@/stores/channel'
-
-    const isLoaded = ref(false);
 
     const authToken = useAuthStore().getToken();
     const config = {
@@ -17,26 +14,26 @@
     };
 
     const channelStore = useChannelStore();
-
-    const ppl1 = "Chirac_le_sang";
-    const ppl2 = "Xx_Sarkozy_xX"
-    const ppl3 = "Holland-BEYOU-47"
-    interface User {
-        name: string;
-        id: number;
-        isAdmin: boolean;
-    }
+    // const ppl1 = "Chirac_le_sang";
+    // const ppl2 = "Xx_Sarkozy_xX"
+    // const ppl3 = "Holland-BEYOU-47"
     // const users = ref<User[]>([ { name: "Chirac_le_sang", id: 1, isAdmin: true}, { name: "Xx_Sarkozy_xX", id: 2, isAdmin: false}, { name: "Holland-BEYOU-47", id: 3, isAdmin: false} ]);
-    const users = ref<User[]>(channelStore.getSelectedChannel()[0].users); // remove after tests
-    // console.log(channelStore.getSelectedChannel());
+    const users = channelStore.getSelectedChannel().users;
 
-    onBeforeMount(async () => {
-        channelStore.getSelectedChannel()[0].users;
-        isLoaded.value = true;
-    })
+    const IsAdmin = (user:string) => {
+        console.log(user);
+        
+        if (channelStore.getSelectedChannel().creator == user) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    function ClickOnUser(user:User) {
-        console.log("click on user : " + user.name + "#" + user.id);
+    function ClickOnUser(user:string) {
+        console.log("click on user : " + user);
+        console.log("users : " + channelStore.selectedChannel.users);
+        
     }
 
     function AddUserClick() {
@@ -50,12 +47,9 @@
     <div class="upperDiv">
         <h3 class="title"> Utilisateurs </h3>
         <hr class="separator"/>
-        <div v-if="!isLoaded" class="ChannelLink-spinner">
-            <Spinner/>
-        </div>
-        <ul class="memberList" v-if="isLoaded">
-            <li >
-                <User @click="ClickOnUser(user)" v-for="user in users" :key="user.id" :username="user.name" :is-admin="user.isAdmin"/>
+        <ul class="memberList">
+            <li>
+                <User @click="ClickOnUser(user)" v-for="user, index in channelStore.selectedChannel.users" :key="index" :username="user" :is-admin="IsAdmin(user)" class="user"/>
             </li>
         </ul>
     </div>
@@ -101,8 +95,21 @@
 
     .memberList {
         list-style-type: none;
-        width: 200px;
+        width: 188px;
         padding: 0;
+        max-height: 70vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .memberList::-webkit-scrollbar {
+        width: 8px;
+    }
+    .memberList::-webkit-scrollbar-track {
+        background: var(--color-main-blue);
+    }
+    .memberList::-webkit-scrollbar-thumb {
+        background-color: var(--color-light-blue);
+        border-radius: 20px;
     }
 
     .separator {
