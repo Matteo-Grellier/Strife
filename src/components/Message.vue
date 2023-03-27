@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { onMounted, ref, watchEffect, onBeforeMount } from 'vue';
+import {ref, onBeforeMount } from 'vue';
 import { getIsToday, getIsYesterday } from '../utils';
 import MessageToolBar from "./MessageToolBar.vue"
 import api from '@/boot/axios';
 import { useAuthStore } from '@/stores/auth-store';
-import { useChannelStore } from '@/stores/channel';
 import { useMessagesStore } from '@/stores/messages';
 
 type Props = {
@@ -16,7 +15,6 @@ type Props = {
 const props = defineProps<Props>()
 
 const authStore = useAuthStore();
-const channelStore = useChannelStore();
 const messagesStore = useMessagesStore();
 
 const timeOfSentMessage = ref("");
@@ -58,8 +56,6 @@ onBeforeMount(() => {
     const minuteInMilliseconds = 60000;
     const numberOfMinutes = 3;
 
-    console.log("from message", { MESSAGE: props.message});
-
     isSendInSameTime.value = (
         Boolean(props.previousMessage) 
         && props.message.timestamp - props.previousMessage!.timestamp < minuteInMilliseconds*numberOfMinutes
@@ -83,8 +79,6 @@ const confirmUpdating = () => {
     const config = {
         headers: { Authorization: `Bearer ${authStore.getToken()}` }
     };
-
-    console.log(props.message)
 
     api.post(`/protected/channel/${props.message.channel_id}/message/moderate`,
     {
@@ -135,7 +129,6 @@ const clearMessage = () => {
     }
 
     messagesStore.updateMessage(clearedMessage);
-
 }
 
 </script>
@@ -167,7 +160,6 @@ const clearMessage = () => {
         :onClear:message="clearMessage"
         class="toolbar"/>
     </div>
-
 </template>
 <style scoped>
 h1, .message-content, .message-content h4, .message-content p {

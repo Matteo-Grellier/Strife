@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import api from '@/boot/axios';
-import { onBeforeMount, reactive, onMounted, ref, watchEffect, watch } from 'vue';
+import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth-store';
 
 import { useRouter } from 'vue-router';

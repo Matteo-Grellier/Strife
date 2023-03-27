@@ -3,20 +3,10 @@ import IconSend from './icons/IconSend.vue';
 import IconGif from './icons/IconGif.vue';
 import IconImage from './icons/IconImage.vue'
 import GifSelector from './GifSelector.vue';
-import { ref, computed } from 'vue';
-import api from '@/boot/axios';
-import { useAuthStore } from '../stores/auth-store';
+import { ref } from 'vue';
 import { useChannelStore } from '@/stores/channel';
 
-type Props = {
-    channelId: number,
-}
-
-const authStore = useAuthStore();
-
 const channelStore = useChannelStore()
-
-const props = defineProps<Props>()
 
 const contentOfTextarea = ref("");
 
