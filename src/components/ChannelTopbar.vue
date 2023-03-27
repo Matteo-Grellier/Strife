@@ -14,7 +14,7 @@
 <style scoped>
   .ChannelTopbar {
     background-color: var(--color-dark-blue);
-    height: 50px;
+    height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,6 +28,6 @@
 
   .fakeShadow {
     background: linear-gradient(#1f2630ae, #00000000);
-    height: 10px;
+    height: 2vh;
   }
 </style>
