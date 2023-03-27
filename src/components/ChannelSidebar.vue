@@ -55,11 +55,17 @@
             <Spinner/>
         </div>
         <div class="channelListContainer">
-        <ul class="channelList" v-if="isLoaded">
+        <div v-if="channels.length > 0">
+            <ul class="channelList" v-if="isLoaded">
             <li >
                 <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
             </li>
         </ul>
+        </div>
+        <div v-else>
+            <h1>Pas de channels</h1>
+        </div>
+        
     </div>
     </div>
     

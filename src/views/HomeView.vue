@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import ChannelSidebar from "../components/ChannelSidebar.vue";
   import ChannelTopbar from "../components/ChannelTopbar.vue";
-  import MemberSidebar from "../components/MemberSidebar.vue";
 </script>
 
 <template>
@@ -9,12 +8,12 @@
     <div class="elements">
       <ChannelSidebar class="ChannelSidebar"/>
       <div class="middlePart">
-        <ChannelTopbar channelName="test channel name"/>
+        <ChannelTopbar channelName=""/>
         <div class="channelContent">
-          home
+          <img class="chooseChannelSVG" src="../assets/chooseChannel.svg" alt="chooseChannel">
+          <h2>Welcome to Strife, choose a channel to start !</h2>
         </div>
       </div>
-      <MemberSidebar/>
     </div>
   </main>
 </template>
@@ -34,10 +33,15 @@
   }
 
   .channelContent {
-    padding: 2%;
+    padding: 2vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 84vh;
   }
-
-  .MembersSidebar {
-    flex: 1;
+  .chooseChannelSVG{
+    width: 30%;
+    display: flex;
   }
 </style>
