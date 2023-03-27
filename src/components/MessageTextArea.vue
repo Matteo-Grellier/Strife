@@ -6,20 +6,25 @@ import { ref, computed } from 'vue';
 import api from '@/boot/axios';
 import { useAuthStore } from '../stores/auth-store';
 
+type Props = {
+    channelId: number,
+}
+
 const authStore = useAuthStore();
+
+const props = defineProps<Props>()
 
 const contentOfTextarea = ref("");
 
-const sendMessage = () => {
 
-    const channelId = 1
+const sendMessage = () => {
 
     const config = {
         headers: { Authorization: `Bearer ${authStore.getToken()}` }
     };
 
     try{
-        api.post(`/protected/channel/${channelId}/message`, {
+        api.post(`/protected/channel/${props.channelId}/message`, {
             Text: contentOfTextarea.value
         }, config)
 

@@ -46,6 +46,9 @@ import { useMessagesStore } from '../stores/messages';
       await messagesStore.setMessages(route.params.channelId as string);
 
       currentMessages.value = messagesStore.messages
+
+      messagesStore.closeWebSocketConnection();
+      await messagesStore.createWebSocketConnection(route.params.channelId as string);
   })
 </script>
 
@@ -53,7 +56,7 @@ import { useMessagesStore } from '../stores/messages';
     <div class="elements">
         <ChannelTopbar :channelName="channelStore.selectedChannel.name"/>
         <ChannelContent :channelId="channelStore.selectedChannel.id" :creator="channelStore.selectedChannel.creator"/>
-        <MessageTextArea/>
+        <MessageTextArea :channelId="channelStore.selectedChannel.id"/>
     </div>
 </template>
 

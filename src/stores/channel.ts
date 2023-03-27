@@ -29,6 +29,5 @@ export const useChannelStore = defineStore("channel", {
         setChannels(channels: Channel[]) {
             this.channels.push()
         }
-
     }
 })

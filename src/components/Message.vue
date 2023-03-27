@@ -96,7 +96,7 @@ const confirmUpdating = () => {
 </script>
 <template>
     <div class="message-component" :style="(isSendInSameTime) ? 'margin-top: 0' : 'margin-top: 10px' ">
-        <div v-if="!isSendInSameTime" class="message">
+        <div v-if="!isSendInSameTime || message.author != previousMessage!.author" class="message">
             <h1 class="letter-profile">{{ message.author[0].toUpperCase() }}</h1>
             <div class="message-content">
                 <h4>{{ message.author }}<span class="date"> • {{ timeOfSentMessage }}</span></h4>

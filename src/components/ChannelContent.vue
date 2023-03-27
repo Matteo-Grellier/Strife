@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import api, {webSocketApi} from '@/boot/axios';
+import api from '@/boot/axios';
 import { onBeforeMount, reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth-store';
 
@@ -23,10 +23,6 @@ const props = defineProps<Props>();
 
 const isLoaded = ref(true);
 const currentUserIsModerator = ref(false);
-
-const createWebSocketConnection = async () => {
-    webSocketApi.get(`/ws/channel/${props.channelId}/token/${authStore.token}`)
-}
 
 const onScroll = async ({target}: Event) => {
     const currentElement: Element = target as Element
