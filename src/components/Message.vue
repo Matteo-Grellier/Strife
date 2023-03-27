@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { onMounted, ref, watchEffect, onBeforeMount } from 'vue';
+import {ref, onBeforeMount } from 'vue';
 import { getIsToday, getIsYesterday } from '../utils';
 import MessageToolBar from "./MessageToolBar.vue"
 import api from '@/boot/axios';
 import { useAuthStore } from '@/stores/auth-store';
+import { useMessagesStore } from '@/stores/messages';
 
 type Props = {
     message: Message,
@@ -14,6 +15,7 @@ type Props = {
 const props = defineProps<Props>()
 
 const authStore = useAuthStore();
+const messagesStore = useMessagesStore();
 
 const timeOfSentMessage = ref("");
 const isSendInSameTime = ref(false);
@@ -54,8 +56,6 @@ onBeforeMount(() => {
     const minuteInMilliseconds = 60000;
     const numberOfMinutes = 3;
 
-    console.log("from message", { MESSAGE: props.message});
-
     isSendInSameTime.value = (
         Boolean(props.previousMessage) 
         && props.message.timestamp - props.previousMessage!.timestamp < minuteInMilliseconds*numberOfMinutes
@@ -80,8 +80,6 @@ const confirmUpdating = () => {
         headers: { Authorization: `Bearer ${authStore.getToken()}` }
     };
 
-    console.log(props.message)
-
     api.post(`/protected/channel/${props.message.channel_id}/message/moderate`,
     {
         channel_id: props.message.channel_id,
@@ -91,18 +89,59 @@ const confirmUpdating = () => {
             Text: updatedText.value
         }
     }, config)
+
+    const updatedMessage = {
+        channel_id: props.message.channel_id,
+        timestamp: props.message.timestamp,
+        author: props.message.author,
+        content: {
+            Text: updatedText.value
+        }
+    }
+    isUpdatingMessage.value = !isUpdatingMessage.value;
+
+    messagesStore.updateMessage(updatedMessage);
+
+}
+
+const clearMessage = () => {
+    const config = {
+        headers: { Authorization: `Bearer ${authStore.getToken()}` }
+    };
+
+    api.post(`/protected/channel/${props.message.channel_id}/message/moderate`,
+    {
+        channel_id: props.message.channel_id,
+        timestamp: props.message.timestamp,
+        author: props.message.author,
+        content: {
+            Text: ""
+        }
+    }, config)
+
+    const clearedMessage = {
+        channel_id: props.message.channel_id,
+        timestamp: props.message.timestamp,
+        author: props.message.author,
+        content: {
+            Text: ""
+        }
+    }
+
+    messagesStore.updateMessage(clearedMessage);
 }
 
 </script>
 <template>
     <div class="message-component" :style="(isSendInSameTime) ? 'margin-top: 0' : 'margin-top: 10px' ">
-        <div v-if="!isSendInSameTime" class="message">
+        <div v-if="!isSendInSameTime || message.author != previousMessage!.author" class="message">
             <h1 class="letter-profile">{{ message.author[0].toUpperCase() }}</h1>
             <div class="message-content">
                 <h4>{{ message.author }}<span class="date"> • {{ timeOfSentMessage }}</span></h4>
                 <textarea v-if="isUpdatingMessage" name="update-content" v-model="updatedText">{{ updatedText }}</textarea>
                 <p v-else-if="message.content.Text">{{ message.content.Text }}</p>
-                <img v-else :src="message.content.Image" :alt="`Image from ${message.author}`">
+                <img v-else-if="message.content.Image" :src="message.content.Image" :alt="`Image from ${message.author}`">
+                <p v-else class="empty-message"><i>This message is empty 👓</i></p>
             </div>
         </div>
         <div v-else="isSendInSameTime" class="message">
@@ -110,16 +149,17 @@ const confirmUpdating = () => {
                 <p class="date date-same-time">{{ timeOfSentMessage }}</p>
                 <textarea v-if="isUpdatingMessage" name="update-content" v-model="updatedText">{{ updatedText }}</textarea>
                 <p v-else-if="message.content.Text">{{ message.content.Text }}</p>
-                <img v-else :src="message.content.Image" :alt="`Image from ${message.author}`">
+                <img v-else-if="message.content.Image" :src="message.content.Image" :alt="`Image from ${message.author}`">
+                <p v-else class="empty-message"><i>This message is empty 👓</i></p>
             </div>
         </div>
         <MessageToolBar 
         v-if="showToolbar" 
         :onUpdating:message="enableUpdatingMessage" 
         :onUpdateconfirm:message="confirmUpdating"
+        :onClear:message="clearMessage"
         class="toolbar"/>
     </div>
-
 </template>
 <style scoped>
 h1, .message-content, .message-content h4, .message-content p {
@@ -202,6 +242,10 @@ h1, .message-content, .message-content h4, .message-content p {
 }
 .message-content img {
     border-radius: 10px;
-    max-width: 50em;
+    max-height: 15em;
+}
+
+.empty-message {
+    color:var(--color-empty-message)
 }
 </style>

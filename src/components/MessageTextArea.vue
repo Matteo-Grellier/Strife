@@ -2,41 +2,41 @@
 import IconSend from './icons/IconSend.vue';
 import IconGif from './icons/IconGif.vue';
 import IconImage from './icons/IconImage.vue'
-import { ref, computed } from 'vue';
-import api from '@/boot/axios';
-import { useAuthStore } from '../stores/auth-store';
+import GifSelector from './GifSelector.vue';
+import { ref } from 'vue';
+import { useChannelStore } from '@/stores/channel';
 
-const authStore = useAuthStore();
+const channelStore = useChannelStore()
 
 const contentOfTextarea = ref("");
 
+const gifSelectorIsAppear = ref(false);
+const isImageArea = ref(false);
+
+
 const sendMessage = () => {
 
-    const channelId = 1
+    const type = (isImageArea.value) ? 'image': 'text'
 
-    const config = {
-        headers: { Authorization: `Bearer ${authStore.getToken()}` }
-    };
+    channelStore.sendMessageOnChannel(contentOfTextarea.value, type)
 
-    try{
-        api.post(`/protected/channel/${channelId}/message`, {
-            Text: contentOfTextarea.value
-        }, config)
-
-        contentOfTextarea.value = "";
-    } catch(e: any) {
-        console.error(e.message);
-    }
-
+    contentOfTextarea.value = "";
 }
 
 </script>
 <template>
+    <GifSelector v-if="gifSelectorIsAppear"/>
     <div class="textarea-bar">
-        <textarea placeholder="Enter your message..." v-model="contentOfTextarea" name="" :rows="1">{{ contentOfTextarea }}</textarea>
+        <pre v-if="isImageArea">image :</pre>
+        <textarea 
+        :placeholder="isImageArea ? 'Enter your image link...' : 'Enter your message...'" 
+        v-model="contentOfTextarea" 
+        name="" 
+        :rows="1"
+        >{{ contentOfTextarea }}</textarea>
         <div class="buttons">
-            <button class="classic-button"><IconImage height="40"/></button>
-            <button class="gif-button"><IconGif height="25"/></button>
+            <button class="classic-button" @click="() => isImageArea = !isImageArea"><IconImage height="40"/></button>
+            <button class="gif-button" @click="() => gifSelectorIsAppear = !gifSelectorIsAppear"><IconGif height="25"/></button>
             <button class="classic-button" @click="sendMessage"><IconSend/></button>
         </div>
     </div>
@@ -51,6 +51,13 @@ const sendMessage = () => {
         margin-top: 20px;
         border-radius: 20px;
         background-color: var(--color-light-blue);
+    }
+
+    .textarea-bar pre {
+        background-color: var(--color-dark-blue);
+        border-radius: 5px;
+        padding: 5px;
+        margin-left: 10px;
     }
 
     textarea {

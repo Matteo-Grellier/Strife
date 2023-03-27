@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import api, {webSocketApi} from '@/boot/axios';
-import { onBeforeMount, reactive, onMounted, ref, watchEffect, watch } from 'vue';
+import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth-store';
 
 import { useRouter } from 'vue-router';
@@ -9,10 +8,12 @@ import Message from './Message.vue';
 import Spinner from './Spinner.vue';
 import Button from './Button.vue';
 import { useMessagesStore } from '@/stores/messages';
+import { useChannelStore } from '@/stores/channel';
 
 const authStore = useAuthStore();
 const messagesStore = useMessagesStore();
 const router = useRouter();
+const channelStore = useChannelStore();
 
 type Props = {
     channelId: number,
@@ -22,11 +23,6 @@ type Props = {
 const props = defineProps<Props>();
 
 const isLoaded = ref(true);
-const currentUserIsModerator = ref(false);
-
-const createWebSocketConnection = async () => {
-    webSocketApi.get(`/ws/channel/${props.channelId}/token/${authStore.token}`)
-}
 
 const onScroll = async ({target}: Event) => {
     const currentElement: Element = target as Element
@@ -49,7 +45,7 @@ const onScroll = async ({target}: Event) => {
                 <Message v-for="(message, index) of messagesStore.messages" 
                 :message="message" 
                 :previousMessage="(index > 0) ? messagesStore.messages[index-1] : undefined"
-                :showToolbar="currentUserIsModerator"
+                :showToolbar="channelStore.getIsAdmin()"
                 />
             </div>
         </div>
