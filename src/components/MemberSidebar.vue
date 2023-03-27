@@ -5,6 +5,7 @@
     import { useAuthStore } from '@/stores/auth-store'
     import { onBeforeMount, ref } from 'vue';
     import { useChannelStore } from '@/stores/channel'
+    import AddUser from "./AddUser.vue";
 
     const authToken = useAuthStore().getToken();
     const config = {
@@ -36,8 +37,10 @@
         
     }
 
-    function AddUserClick() {
-        console.log("add user ");
+    var isAddingNewUser = ref(false);
+    function changeAddUserState() {
+        isAddingNewUser.value = !isAddingNewUser.value;
+        console.log(isAddingNewUser.value);
     }
 
 </script>
@@ -53,10 +56,11 @@
             </li>
         </ul>
     </div>
-    <button class="buttonPlus" @click="AddUserClick()">
+    <button class="buttonPlus" @click="changeAddUserState()">
         <img :src="GroupAdd" alt="LibraryAdd" class="libraryAdd"> 
         <h3> Add user </h3>
     </button>
+    <AddUser v-if="isAddingNewUser" class="addUserDiv"/>
   </div>
 </template>
 
@@ -116,5 +120,11 @@
         margin-top: 10px;
         margin-bottom: 10px;
         width: 100%;
+    }
+
+    .addUserDiv {
+        position: absolute;
+        top: 40vh;
+        right: 15vh;
     }
 </style>

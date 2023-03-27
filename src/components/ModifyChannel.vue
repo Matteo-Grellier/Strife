@@ -4,8 +4,13 @@
     import { useAuthStore } from '@/stores/auth-store';
     import { useChannelStore } from '@/stores/channel'
 
-    const channelName = ref('');
-    const channelImg = ref('');
+    const props = defineProps<{
+        actualChannelName: string,
+        actualChannelImg: string
+    }>();
+
+    const channelName = ref(props.actualChannelName);
+    const channelImg = ref(props.actualChannelImg);
     const channelColor = ref('');
 
     const JWT = useAuthStore().getToken();
