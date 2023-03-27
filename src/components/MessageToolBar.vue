@@ -7,12 +7,21 @@ import { ref } from 'vue';
 
 const isUpdatingMessage = ref(false);
 
-const emit = defineEmits(["updating:message", "updateconfirm:message"]);
+const emit = defineEmits(["updating:message", "updateconfirm:message", "clear:message"]);
 
 const clickUpdatingContent = () => {
     isUpdatingMessage.value = !isUpdatingMessage.value;
     console.log("BONSOIR", isUpdatingMessage.value)
     emit("updating:message", isUpdatingMessage.value);
+}
+
+const clickUpdateConfirmContent = () => {
+    isUpdatingMessage.value = !isUpdatingMessage.value;
+    emit('updateconfirm:message')
+}
+
+const clickClearContent = () => {
+    emit('clear:message')
 }
 
 </script>
@@ -22,10 +31,10 @@ const clickUpdatingContent = () => {
             <IconClose v-if="isUpdatingMessage" width="25" height="25"/>
             <IconEdit v-else width="25" height="25"/>
         </button>
-        <button v-if="isUpdatingMessage" title="Confirm edition" @click="() => emit('updateconfirm:message')">
+        <button v-if="isUpdatingMessage" title="Confirm edition" @click="clickUpdateConfirmContent">
             <IconCheck width="25" height="25"/>
         </button>
-        <button v-if="!isUpdatingMessage" title="Delete content" class="delete">
+        <button v-if="!isUpdatingMessage" title="Delete content" class="delete" @click="clickClearContent">
             <IconDelete width="25" height="25"/>
         </button>
     </div>  
