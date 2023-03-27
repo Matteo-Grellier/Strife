@@ -38,7 +38,8 @@
             <Spinner/>
         </div>
         <div class="channelListContainer">
-        <ul class="channelList" v-if="isLoaded">
+        <div v-if="channels.length > 0">
+            <ul class="channelList" v-if="isLoaded">
             <li >
                 <ChannelLink v-for="channel in channels" 
                 :key="channel.id" 
@@ -47,6 +48,11 @@
                 :channelId="channel.id"/>
             </li>
         </ul>
+        </div>
+        <div v-else>
+            <h1>Pas de channels</h1>
+        </div>
+        
     </div>
     </div>
     

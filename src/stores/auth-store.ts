@@ -26,9 +26,30 @@ export const useAuthStore = defineStore("auth", {
         .catch((err) => {
           alert("Connection Failed");
         });
+      setTimeout(() => {
+        this.refreshToken();
+      }, 2000 * 60 * 60);
     },
+
     getToken: () => {
       return (localStorage.getItem("token") || "null");
+    },
+    refreshToken() {
+      const JWT = this.getToken();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${JWT}`,
+        },
+      };
+
+      api.post("/protected/extend_session", {}, config).then((user) => {
+        this.token = user;
+        localStorage.setItem("token", JSON.stringify(user.data.token));
+      });
+      setTimeout(() => {
+        this.refreshToken();
+      }, 2000 * 60 * 60);
     },
     logout() {
       this.token = null;
