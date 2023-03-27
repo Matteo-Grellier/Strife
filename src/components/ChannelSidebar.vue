@@ -89,7 +89,7 @@
             <h3>New channel</h3>
         </button>
     </div>
-    <ModifyChannel v-if="isCreatingNewChannel" class="addChannelDiv"/>
+    <AddChannel v-if="isCreatingNewChannel" class="addChannelDiv"/>
 </template>
 
 <style scoped>
