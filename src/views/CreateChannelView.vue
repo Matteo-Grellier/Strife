@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import api from '@/boot/axios';
 import { useAuthStore } from '@/stores/auth-store';
+import AddChannel from '@/components/AddChannel.vue';
 
 const channelName = ref('');
 const channelImg = ref('');
@@ -31,10 +32,11 @@ function onSubmit() {
 
 <template>
     <main>
-        <label for="channelName">Name of the channel</label>
+        <!-- <label for="channelName">Name of the channel</label>
         <input type="text" v-model="channelName">
         <label for="channelName">Link of the image of the channel</label>
         <input type="text" v-model="channelImg">
-        <button v-on:click="onSubmit">Create</button>
+        <button v-on:click="onSubmit">Create</button> -->
+        <AddChannel/>
     </main>
 </template>
