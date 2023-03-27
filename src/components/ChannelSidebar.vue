@@ -167,9 +167,8 @@
 
     .addChannelDiv {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 40vh;
+        left: 15vh;
     }
 
     .channelListContainer {
