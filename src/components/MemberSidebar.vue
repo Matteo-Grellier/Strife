@@ -5,6 +5,7 @@
     import api from '@/boot/axios';
     import { useAuthStore } from '@/stores/auth-store'
     import { onBeforeMount, ref } from 'vue';
+    import { useChannelStore } from '@/stores/channel'
 
     const isLoaded = ref(false);
 
@@ -15,6 +16,8 @@
         }
     };
 
+    const channelStore = useChannelStore();
+
     const ppl1 = "Chirac_le_sang";
     const ppl2 = "Xx_Sarkozy_xX"
     const ppl3 = "Holland-BEYOU-47"
@@ -23,21 +26,14 @@
         id: number;
         isAdmin: boolean;
     }
-    const users = ref<User[]>([ { name: "Chirac_le_sang", id: 1, isAdmin: true}, { name: "Xx_Sarkozy_xX", id: 2, isAdmin: false}, { name: "Holland-BEYOU-47", id: 3, isAdmin: false} ]);
+    // const users = ref<User[]>([ { name: "Chirac_le_sang", id: 1, isAdmin: true}, { name: "Xx_Sarkozy_xX", id: 2, isAdmin: false}, { name: "Holland-BEYOU-47", id: 3, isAdmin: false} ]);
+    const users = ref<User[]>(channelStore.getSelectedChannel()[0].users); // remove after tests
+    // console.log(channelStore.getSelectedChannel());
 
     onBeforeMount(async () => {
-        await getUsers();
+        channelStore.getSelectedChannel()[0].users;
         isLoaded.value = true;
     })
-    const getUsers = async () => {
-        await api.get('/protected/user/channels', config)
-        .then(function(response){
-            users.value = response.data;
-        })
-        .catch(function(error) {
-            console.log('Error:', error);
-        });
-    }
 
     function ClickOnUser(user:User) {
         console.log("click on user : " + user.name + "#" + user.id);
@@ -45,7 +41,6 @@
 
     function AddUserClick() {
         console.log("add user ");
-
     }
 
 </script>
