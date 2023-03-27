@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watchEffect, onBeforeMount } from 'vue';
 import { getIsToday, getIsYesterday } from '../utils';
 import MessageToolBar from "./MessageToolBar.vue"
 import api from '@/boot/axios';
@@ -51,9 +51,11 @@ const getCorrespondingHours = () => {
     timeOfSentMessage.value = messageTime;
 }
 
-onMounted(() => {
+onBeforeMount(() => {
     const minuteInMilliseconds = 60000;
     const numberOfMinutes = 3;
+
+    console.log("from message", { MESSAGE: props.message});
 
     isSendInSameTime.value = (
         Boolean(props.previousMessage) 
@@ -68,6 +70,26 @@ onMounted(() => {
     }
 
 })
+
+
+// watchEffect(() => {
+//     const minuteInMilliseconds = 60000;
+//     const numberOfMinutes = 3;
+
+    
+
+//     isSendInSameTime.value = (
+//         Boolean(props.previousMessage) 
+//         && props.message.timestamp - props.previousMessage!.timestamp < minuteInMilliseconds*numberOfMinutes
+//     );
+
+//     if(isSendInSameTime.value) {
+//         console.log("it's totally true")
+//         getCorrespondingHours();
+//     } else {
+//         getCorrespondingDateAndHours();
+//     }
+// })
 
 const enableUpdatingMessage = (isUpdating: boolean) => {
     isUpdatingMessage.value = isUpdating;

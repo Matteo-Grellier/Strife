@@ -6,8 +6,12 @@
     import { onBeforeMount, ref } from 'vue';
     import Spinner from './Spinner.vue';
     import { useChannelStore } from '@/stores/channel'
+    import {useRoute, useRouter} from "vue-router";
 
-    const channels = ref<ChannelLink[]>([]);
+    const route = useRoute();
+    const channelStore = useChannelStore();
+
+    const channels = ref<Channel[]>([]);
     const isLoaded = ref(false);
     const authToken = useAuthStore().getToken();
     const config = {
@@ -17,8 +21,16 @@
     };
 
     onBeforeMount(async () => {
-        await getChannels();
+        // await getChannels();
+        channels.value = channelStore.channels;
+        console.log(channels);
+        const channelId = route.params.channelId;
+
         isLoaded.value = true
+
+        if(!channelId) return;
+
+        channelStore.setSelectedChannel(channelId as string)
     })
     const getChannels = async () => {
         await api.get('/protected/user/channels', config)
@@ -29,19 +41,10 @@
             console.log('Error:', error);
         });
     }
-    interface ChannelLink {
-        name: string;
-        img: string;
-        id: number;
-        creator: string;
+
+    function selectedChannel(id: number){
+        // channelStore.setSelectedChannel(id.toString())
     }
-
-    const channelStore = useChannelStore();
-
-    function selectedChannel(channel:ChannelLink){
-        channelStore.selectedChannel(channel)
-    }
-
 </script>
 
 <template>
@@ -57,7 +60,11 @@
         <div class="channelListContainer">
         <ul class="channelList" v-if="isLoaded">
             <li >
-                <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
+                <ChannelLink @click="() => selectedChannel(channel.id)" v-for="channel in channels" 
+                :key="channel.id" 
+                :channelName="channel.name" 
+                :channelImg="channel.img" 
+                :channelId="channel.id"/>
             </li>
         </ul>
     </div>
