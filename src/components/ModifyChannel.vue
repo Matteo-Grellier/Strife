@@ -16,7 +16,7 @@
     };
 
     const channelStore = useChannelStore();
-    const selectedChannelId = ref(channelStore.getSelectedChannel()[0].id);
+    const selectedChannelId = ref(channelStore.getSelectedChannel().id);
 
     function onSubmit() {
         console.log(channelColor.value);

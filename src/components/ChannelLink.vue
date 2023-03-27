@@ -1,14 +1,21 @@
 <script setup lang="ts">
+    import ImageAlternative from "../assets/channel-no-img.png" 
+    import { ref } from 'vue';
+
     const props = defineProps<{
+        channelId: number,
         channelName: string,
         channelImg: string
     }>();
+
+    const channelImage = ref(props.channelImg);
+
 </script>
 
 <template >
   <div class="chanelDiv">
-    <RouterLink :to="channelName" class="chanelDiv">
-        <img :src="channelImg" alt="imgNotFound" :title="channelName" class="channelLogo"> 
+    <RouterLink :to="{ name: 'channel', params: { channelId } }" class="chanelDiv">
+        <img :src="channelImage" alt="imgNotFound" :title="channelName" class="channelLogo" @error="() => channelImage = ImageAlternative"> 
         <p class="channelName" >{{ channelName }}</p>
     </RouterLink>
   </div>

@@ -8,8 +8,11 @@
     import Spinner from './Spinner.vue';
     import AddChannel from "./AddChannel.vue";
     import ModifyChannel from "./ModifyChannel.vue";
+    import {useRoute, useRouter} from "vue-router";
 
-    const channels = ref<ChannelLink[]>([]);
+    const route = useRoute();
+
+    const channels = ref<Channel[]>([]);
     const isLoaded = ref(false);
     const authToken = useAuthStore().getToken();
     const config = {
@@ -48,9 +51,9 @@
 
     const channelStore = useChannelStore();
 
-    function selectedChannel(channel:ChannelLink) {
-        channelStore.selectedChannel(channel);
-    }
+    // function selectedChannel(channel:ChannelLink) {
+    //     channelStore.selectedChannel(channel);
+    // }
 
     var isCreatingNewChannel = ref(false);
     function changeAddChannelState() {        
@@ -58,6 +61,17 @@
         console.log(isCreatingNewChannel.value);
     }
 
+    onBeforeMount(async () => {
+        channels.value = channelStore.channels;
+        console.log(channels);
+        const channelId = route.params.channelId;
+
+        isLoaded.value = true
+
+        if(!channelId) return;
+
+        channelStore.setSelectedChannel(channelId as string)
+    })
 </script>
 
 <template>
@@ -74,7 +88,11 @@
                 <div v-if="channels.length > 0">
                     <ul class="channelList" v-if="isLoaded">
                         <li >
-                            <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
+                            <ChannelLink v-for="channel in channels" 
+                            :key="channel.id" 
+                            :channelName="channel.name" 
+                            :channelImg="channel.img" 
+                            :channelId="channel.id"/>
                         </li>
                     </ul>
                 </div>
