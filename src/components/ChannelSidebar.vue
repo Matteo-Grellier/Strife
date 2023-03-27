@@ -72,11 +72,12 @@
                 <div v-else>
                     <h1>Pas de channels</h1>
                 </div>
-            
             </div>
+            <div class="fakeshadow"></div>
         </div>
         <button id="buttonPlus" @click="changeAddChannelState()">
             <img :src="LibraryAdd" alt="LibraryAdd" class="libraryAdd"> 
+            <h3>New channel</h3>
         </button>
     </div>
     <AddChannel v-if="isCreatingNewChannel" class="addChannelDiv"/>
@@ -116,6 +117,20 @@
         list-style-type: none;
         width: 200px;
         padding: 0;
+        max-height: 70vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .channelList::-webkit-scrollbar {
+        width: 8px;
+    }
+    .channelList::-webkit-scrollbar-track {
+        background: var(--color-main-blue);
+    }
+    .channelList::-webkit-scrollbar-thumb {
+        background-color: var(--color-light-blue);
+        border-radius: 20px;
     }
 
     .separator {
@@ -128,5 +143,14 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+    }
+
+    .channelListContainer {
+        /* overflow-y: scroll; */
+    }
+
+    .fakeshadow {
+        background: linear-gradient(#00000000, #1f2630);
+        height: 2vh;
     }
 </style>
