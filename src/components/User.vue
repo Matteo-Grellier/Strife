@@ -5,18 +5,16 @@
   }>();
 
   var textClass = "usernameClass";
-  var username = props.username;
 
   if (props.isAdmin == true) 
   {
     textClass =  "adminUsernameClass";
-    username = username + "   ✨";
   }
 </script>
 
 <template>
   <div class="userDiv">
-    <h3 :class="textClass" >{{ username }}</h3>
+    <h3 :class="textClass" >{{ isAdmin ? username + "  ✨" : username}}</h3>
   </div>
 </template>
 

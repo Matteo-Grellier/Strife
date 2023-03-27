@@ -13,7 +13,7 @@ export const useChannelStore = defineStore("channel", {
             id: -1,
             img: "default.jpg",
             creator: "Unknown",
-            users: []
+            users: [],
         },
         channels: []
 
@@ -28,6 +28,9 @@ export const useChannelStore = defineStore("channel", {
         },
         setChannels(channels: Channel[]) {
             this.channels.push()
+        },
+        getSelectedChannel() {
+            return this.selectedChannel;
         }
     }
-})
+});
