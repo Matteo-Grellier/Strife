@@ -34,7 +34,7 @@
 
   const BanUser = (username:string) => {
     api.delete('/protected/channel/' + selectedChannelId.value + '/user/' + username, config)
-    .then(function (response) {
+    .then(function (response) { 
       console.log(response);
       window.location.reload()
     })
