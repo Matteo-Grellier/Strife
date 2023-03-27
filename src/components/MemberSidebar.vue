@@ -1,10 +1,47 @@
 <script setup lang="ts">
     import GroupAdd from "../assets/groupAdd.svg"
     import User from "./User.vue"
+    import Spinner from './Spinner.vue';
+    import api from '@/boot/axios';
+    import { useAuthStore } from '@/stores/auth-store'
+    import { onBeforeMount, ref } from 'vue';
+    import { useChannelStore } from '@/stores/channel'
+
+    const isLoaded = ref(false);
+
+    const authToken = useAuthStore().getToken();
+    const config = {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    };
+
+    const channelStore = useChannelStore();
 
     const ppl1 = "Chirac_le_sang";
     const ppl2 = "Xx_Sarkozy_xX"
     const ppl3 = "Holland-BEYOU-47"
+    interface User {
+        name: string;
+        id: number;
+        isAdmin: boolean;
+    }
+    // const users = ref<User[]>([ { name: "Chirac_le_sang", id: 1, isAdmin: true}, { name: "Xx_Sarkozy_xX", id: 2, isAdmin: false}, { name: "Holland-BEYOU-47", id: 3, isAdmin: false} ]);
+    const users = ref<User[]>(channelStore.getSelectedChannel()[0].users); // remove after tests
+    // console.log(channelStore.getSelectedChannel());
+
+    onBeforeMount(async () => {
+        channelStore.getSelectedChannel()[0].users;
+        isLoaded.value = true;
+    })
+
+    function ClickOnUser(user:User) {
+        console.log("click on user : " + user.name + "#" + user.id);
+    }
+
+    function AddUserClick() {
+        console.log("add user ");
+    }
 
 </script>
 
@@ -13,19 +50,18 @@
     <div class="upperDiv">
         <h3 class="title"> Utilisateurs </h3>
         <hr class="separator"/>
-        <ul class="memberList">
+        <div v-if="!isLoaded" class="ChannelLink-spinner">
+            <Spinner/>
+        </div>
+        <ul class="memberList" v-if="isLoaded">
             <li >
-                <!-- <ChannelLink :channelName="yes" channelImg="logo-solo"/>
-                <ChannelLink :channelName="noYes" channelImg="logo-solo"/> -->
-                <User :username="ppl1" :is-admin="true"></User>
-                <User :username="ppl2" :is-admin="false"></User>
-                <User :username="ppl3" :is-admin="false"></User>
+                <User @click="ClickOnUser(user)" v-for="user in users" :key="user.id" :username="user.name" :is-admin="user.isAdmin"/>
             </li>
         </ul>
     </div>
-    <button class="buttonPlus">
+    <button class="buttonPlus" @click="AddUserClick()">
         <img :src="GroupAdd" alt="LibraryAdd" class="libraryAdd"> 
-        <h3>Add user</h3>
+        <h3> Add user </h3>
     </button>
   </div>
 </template>

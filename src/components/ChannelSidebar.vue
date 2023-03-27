@@ -30,17 +30,25 @@
             console.log('Error:', error);
         });
     }
+
+    interface User {
+        name: string;
+        id: number;
+        isAdmin: boolean;
+    };
+
     interface ChannelLink {
         name: string;
         img: string;
         id: number;
         creator: string;
-    }
+        users: User[];
+    };
 
     const channelStore = useChannelStore();
 
-    function selectedChannel(channel:ChannelLink){
-        channelStore.selectedChannel(channel)
+    function selectedChannel(channel:ChannelLink) {
+        channelStore.selectedChannel(channel);
     }
 
     var isCreatingNewChannel = ref(false);

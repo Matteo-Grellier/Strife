@@ -2,20 +2,22 @@
     import { ref } from 'vue';
     import api from '@/boot/axios';
     import { useAuthStore } from '@/stores/auth-store';
+    import { useChannelStore } from '@/stores/channel'
 
     const channelName = ref('');
     const channelImg = ref('');
+
     const JWT = useAuthStore().getToken();
-
-
     const config = {
         headers: {
             Authorization: `Bearer ${JWT}`
         }
     };
+
+    const channelStore = useChannelStore();
+    const users = ref(channelStore.getSelectedChannel()[0].);
+
     function onSubmit() {
-        console.log(channelName.value);
-        console.log(channelImg.value);
         api.put('/protected/channel', {
             name: channelName.value,
             img: channelImg.value
