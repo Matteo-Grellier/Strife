@@ -6,6 +6,7 @@
     import { onBeforeMount, ref } from 'vue';
     import Spinner from './Spinner.vue';
     import { useChannelStore } from '@/stores/channel'
+    import AddChannel from "./AddChannel.vue";
 
     const channels = ref<ChannelLink[]>([]);
     const isLoaded = ref(false);
@@ -42,38 +43,43 @@
         channelStore.selectedChannel(channel)
     }
 
+    var isCreatingNewChannel = ref(false);
+    function changeAddChannelState() {        
+        isCreatingNewChannel.value = !isCreatingNewChannel.value;
+        console.log(isCreatingNewChannel.value);
+    }
+
 </script>
 
 <template>
-  <div class="ChannelSidebar">
-    <div class="upperDiv">
-        <RouterLink to="/"> 
-            <img src="/logo-text.png" alt="STIFE" class="StrifeLogo"> 
-        </RouterLink>
-        <hr class="separator"/>
-        <div v-if="!isLoaded" class="ChannelLink-spinner">
-            <Spinner/>
+    <div class="ChannelSidebar">
+        <div class="upperDiv">
+            <RouterLink to="/"> 
+                <img src="/logo-text.png" alt="STIFE" class="StrifeLogo"> 
+            </RouterLink>
+            <hr class="separator"/>
+            <div v-if="!isLoaded" class="ChannelLink-spinner">
+                <Spinner/>
+            </div>
+            <div class="channelListContainer">
+                <div v-if="channels.length > 0">
+                    <ul class="channelList" v-if="isLoaded">
+                        <li >
+                            <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
+                        </li>
+                    </ul>
+                </div>
+                <div v-else>
+                    <h1>Pas de channels</h1>
+                </div>
+            
+            </div>
         </div>
-        <div class="channelListContainer">
-        <div v-if="channels.length > 0">
-            <ul class="channelList" v-if="isLoaded">
-            <li >
-                <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
-            </li>
-        </ul>
-        </div>
-        <div v-else>
-            <h1>Pas de channels</h1>
-        </div>
-        
+        <button id="buttonPlus" @click="changeAddChannelState()">
+            <img :src="LibraryAdd" alt="LibraryAdd" class="libraryAdd"> 
+        </button>
     </div>
-    </div>
-    
-    
-    <button id="buttonPlus">
-        <img :src="LibraryAdd" alt="LibraryAdd" class="libraryAdd"> 
-    </button>
-  </div>
+    <AddChannel v-if="isCreatingNewChannel" class="addChannelDiv"/>
 </template>
 
 <style scoped>
@@ -115,5 +121,12 @@
     .separator {
         margin-top: 20px;
         margin-bottom: 30px;
+    }
+
+    .addChannelDiv {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>
