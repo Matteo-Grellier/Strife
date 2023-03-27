@@ -13,15 +13,8 @@
 
     const channels = ref<Channel[]>([]);
     const isLoaded = ref(false);
-    const authToken = useAuthStore().getToken();
-    const config = {
-        headers: {
-            Authorization: `Bearer ${authToken}`
-        }
-    };
 
     onBeforeMount(async () => {
-        // await getChannels();
         channels.value = channelStore.channels;
         console.log(channels);
         const channelId = route.params.channelId;
@@ -32,19 +25,6 @@
 
         channelStore.setSelectedChannel(channelId as string)
     })
-    const getChannels = async () => {
-        await api.get('/protected/user/channels', config)
-        .then(function(response){
-            channels.value = response.data;
-        })
-        .catch(function(error) {
-            console.log('Error:', error);
-        });
-    }
-
-    function selectedChannel(id: number){
-        // channelStore.setSelectedChannel(id.toString())
-    }
 </script>
 
 <template>
@@ -60,7 +40,7 @@
         <div class="channelListContainer">
         <ul class="channelList" v-if="isLoaded">
             <li >
-                <ChannelLink @click="() => selectedChannel(channel.id)" v-for="channel in channels" 
+                <ChannelLink v-for="channel in channels" 
                 :key="channel.id" 
                 :channelName="channel.name" 
                 :channelImg="channel.img" 

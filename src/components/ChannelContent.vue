@@ -17,66 +17,16 @@ const router = useRouter();
 type Props = {
     channelId: number,
     creator: string,
-    // messages: Message[]
 }
 
 const props = defineProps<Props>();
 
-// const messages: Message[] = reactive([])
-// const messages = ref<Message[]>(props.messages)
 const isLoaded = ref(true);
 const currentUserIsModerator = ref(false);
-
-
-// onBeforeMount(async () => {
-//     await setMessages();
-//     isLoaded.value = true
-//     console.log(props.creator, authStore.username)
-//     currentUserIsModerator.value = (props.creator === authStore.username);
-
-//     // await createWebSocketConnection();
-// })
-
-// router.afterEach(async (to) => {
-//     // await setMessages();
-//     const newMessage = await getMessagesFromApi();
-//     messages.pop();
-//     messages.push(newMessage);
-
-//     console.log(messages);
-    
-//     isLoaded.value = true
-//     console.log(props.creator, authStore.username)
-//     currentUserIsModerator.value = (props.creator === authStore.username);
-// })
 
 const createWebSocketConnection = async () => {
     webSocketApi.get(`/ws/channel/${props.channelId}/token/${authStore.token}`)
 }
-
-// const setMessages = async () => {
-//     const messagesToAdd = await getMessagesFromApi();
-//     messages.value.unshift(...messagesToAdd);
-// }
-
-// const getMessagesFromApi = async () => {
-//     const offset = messages.value.length;
-
-//     console.log(props.channelId)
-
-//     const config = {
-//         headers: { Authorization: `Bearer ${authStore.getToken()}` }
-//     };
-//     const response = await api.get(`/protected/channel/${props.channelId}/messages/${offset}`, config)
-
-//     return response.data;
-// }
-
-// const loadOlderMessages = async () => {
-//     isLoaded.value = false
-//     await setMessages();
-//     isLoaded.value = true
-// }
 
 const onScroll = async ({target}: Event) => {
     const currentElement: Element = target as Element
@@ -87,42 +37,6 @@ const onScroll = async ({target}: Event) => {
         await messagesStore.loadOlderMessages(props.channelId.toString());
     }
 }
-
-// watch(props, async () => {
-//     // await setMessages();
-//     // console.log({beforeMessage: messages.value[0]})
-//     const newMessages = await getMessagesFromApi();
-//     // messages.value.length = 0;
-//     // console.log({emptyMessages: messages.value[0]})
-//     messages.value = newMessages;
-
-//     // console.log(newMessages[0]);
-
-//     isLoaded.value = true
-//     // console.log(props.creator, authStore.username)
-//     currentUserIsModerator.value = (props.creator === authStore.username);
-//     // console.log({messages: messages.value[0]}, "WEEEEESH")
-// })
-
-// watch(props, () => {
-//     messages.value = props.messages
-// })
-
-// router.afterEach(async () => {
-//     // await setMessages();
-//     // console.log({beforeMessage: messages.value[0]})
-//     const newMessages = await getMessagesFromApi();
-//     // messages.value.length = 0;
-//     // console.log({emptyMessages: messages.value[0]})
-//     messages.value = newMessages;
-
-//     // console.log(newMessages[0]);
-
-//     isLoaded.value = true
-//     // console.log(props.creator, authStore.username)
-//     currentUserIsModerator.value = (props.creator === authStore.username);
-//     // console.log({messages: messages.value[0]}, "WEEEEESH")
-// })
 
 </script>
 <template>

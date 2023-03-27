@@ -24,7 +24,7 @@ const updatedText = ref("");
 const getCorrespondingDateAndHours = () => {
     const dateOfMessage = new Date(props.message.timestamp);
     console.log(dateOfMessage);
-    // const currentDate = new Date();
+
     const messageTime = dateOfMessage.toLocaleString("fr-FR", {
         hour: '2-digit',
         minute: '2-digit'
@@ -33,7 +33,6 @@ const getCorrespondingDateAndHours = () => {
     if (getIsToday(dateOfMessage)) { // to change
         timeOfSentMessage.value = `Today at ${messageTime}`
     } else if (getIsYesterday(dateOfMessage)) { // to change
-        // date.value = dateOfMessage.toLocaleString("fr-FR")
         timeOfSentMessage.value = `Yesterday at ${messageTime}`
     } else {
         timeOfSentMessage.value = dateOfMessage.toLocaleDateString('fr-FR', {hour: 'numeric', minute: 'numeric'});
@@ -70,26 +69,6 @@ onBeforeMount(() => {
     }
 
 })
-
-
-// watchEffect(() => {
-//     const minuteInMilliseconds = 60000;
-//     const numberOfMinutes = 3;
-
-    
-
-//     isSendInSameTime.value = (
-//         Boolean(props.previousMessage) 
-//         && props.message.timestamp - props.previousMessage!.timestamp < minuteInMilliseconds*numberOfMinutes
-//     );
-
-//     if(isSendInSameTime.value) {
-//         console.log("it's totally true")
-//         getCorrespondingHours();
-//     } else {
-//         getCorrespondingDateAndHours();
-//     }
-// })
 
 const enableUpdatingMessage = (isUpdating: boolean) => {
     isUpdatingMessage.value = isUpdating;

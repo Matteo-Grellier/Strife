@@ -19,12 +19,6 @@ export const useChannelStore = defineStore("channel", {
 
     }),
     actions: {
-        // setSelectedChannel(channel:Channel) {
-        //     this.selectedChannel.name = channel.name;
-        //     this.selectedChannel.id = channel.id;
-        //     this.selectedChannel.img = channel.img;
-        //     this.selectedChannel.creator = channel.creator;
-        // },
         setSelectedChannel(id: string) {
             const selectedChannel = this.channels.find((channel) => id === channel.id.toString())
 

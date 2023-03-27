@@ -23,24 +23,6 @@ import { useMessagesStore } from '../stores/messages';
   const currentChannel = ref(channelStore.selectedChannel)
   const currentMessages = ref<Message[]>([])
 
-  // onBeforeMount(async () => {
-  //   // channelStore.setSelectedChannel(route.params.channelId as string);
-
-  //   // console.log(channelStore.selectedChannel)
-
-  //   // currentChannel.value = channelStore.selectedChannel;
-
-  //   channelStore.setSelectedChannel(route.params.channelId as string);
-
-  //   console.log({selectedChannel: channelStore.selectedChannel})
-
-  //   currentChannel.value = channelStore.selectedChannel;
-
-  //   console.log({currentChannel:currentChannel.value})
-
-  //   await setMessages();
-  // })
-
   const setMessages = async () => {
     currentMessages.value = await getMessagesFromApi();
   }
@@ -60,16 +42,6 @@ import { useMessagesStore } from '../stores/messages';
 
   router.afterEach(async (to) => {
       channelStore.setSelectedChannel(route.params.channelId as string);
-
-      // console.log({selectedChannel: channelStore.selectedChannel})
-
-      // currentChannel.value = channelStore.selectedChannel;
-
-      // console.log({currentChannel:currentChannel.value})
-
-      // messagesStore.setMessages(route.params.channelId as string);
-
-      // await setMessages();
 
       await messagesStore.setMessages(route.params.channelId as string);
 
