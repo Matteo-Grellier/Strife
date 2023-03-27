@@ -1,3 +1,4 @@
+import api from "@/boot/axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -31,6 +32,32 @@ export const useChannelStore = defineStore("channel", {
         },
         getSelectedChannel() {
             return this.selectedChannel;
+        },
+        getIsAdmin() {
+            const currentUser = localStorage.getItem('username')
+
+            return (currentUser == this.selectedChannel.creator)
+        },
+        sendMessageOnChannel(message: string, type: "image" | "text") {
+            const config = {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+            };
+
+            const id = this.selectedChannel.id
+        
+            try{
+                if(type === "image") {
+                    api.post(`/protected/channel/${id}/message`, {
+                        Image: message
+                    }, config)
+                } else {
+                    api.post(`/protected/channel/${id}/message`, {
+                        Text: message
+                    }, config)
+                }
+            } catch(e: any) {
+                console.error(e.message);
+            }
         }
     }
 });

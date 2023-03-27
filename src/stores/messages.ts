@@ -36,7 +36,6 @@ export const useMessagesStore = defineStore("message", {
         },
         async createWebSocketConnection(channelId: string) {
             try {
-                // await api.get(`/ws/channel/${channelId}/token/${localStorage.getItem('token')}`)
                 const ws = new WebSocket(`wss://edu.tardigrade.land/msg/ws/channel/${channelId}/token/${localStorage.getItem('token')}`);
 
                 this.webSocket = ws;
@@ -60,11 +59,9 @@ export const useMessagesStore = defineStore("message", {
                         const audio = new Audio(Notification);
                         audio.play();
                     }
-
-                    console.log("BONSOIR OUIIIIII",this.messages);
                 }
             } catch(e) {
-                console.log(e);
+                console.error(e);
             }
         },
         closeWebSocketConnection() {
@@ -76,6 +73,20 @@ export const useMessagesStore = defineStore("message", {
                 this.webSocket = undefined;
                 console.log(this.webSocket);
             }
+        },
+        updateMessage(updateMessage: Message) {
+            const updatedMessages = this.messages.map((message) => {
+                if(updateMessage.timestamp == message.timestamp 
+                    && updateMessage.author == message.author
+                    && updateMessage.channel_id == message.channel_id
+                ) {
+                    return updateMessage;
+                }
+
+                return message;
+            })
+
+            this.messages = updatedMessages;
         }
 
     }
