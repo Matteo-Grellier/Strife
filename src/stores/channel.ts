@@ -35,7 +35,7 @@ export const useChannelStore = defineStore("channel", {
             return [{
                 name: this.name,
                 img: this.img,
-                id: this.$id,
+                id: this.id,
                 creator: this.creator,
                 users: this.users,
             }]

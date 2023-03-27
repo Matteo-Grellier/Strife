@@ -19,11 +19,17 @@
     const selectedChannelId = ref(channelStore.getSelectedChannel()[0].id);
 
     function onSubmit() {
-        api.post('/protected/channel/' + selectedChannelId + '/update_metadata', {
+        console.log(channelColor.value);
+        console.log(selectedChannelId.value);
+        api.post('/protected/channel/' + selectedChannelId.value + '/update_metadata', {
             name: channelName.value,
             img: channelImg.value,
             theme: {
                 primary_color: channelColor.value,
+                primary_color_dark: channelColor.value,
+                accent_color: channelColor.value,
+                text_color: channelColor.value,
+                accent_text_color: channelColor.value,
             }
         }, config)
         .then(function (response) {
@@ -36,7 +42,7 @@
     }
 
     function onDelete() {
-        api.delete('/protected/channel/' + selectedChannelId)
+        api.delete('/protected/channel/' + selectedChannelId.value, config)
         .then(function (response) {
             console.log(response);
             window.location.reload()
@@ -53,8 +59,8 @@
         <input type="text" v-model="channelName" placeholder="Channel Name" class="input">
         <input type="text" v-model="channelImg" placeholder="Channel Image" class="input">
         <input type="color" v-model="channelColor">
-        <button @click="onSubmit" class="btn">Modify channel</button>
-        <button @click="onDelete" class="btn-del">Delete channel</button>
+        <button @click="onSubmit()" class="btn">Modify channel</button>
+        <button @click="onDelete()" class="btn-del">Delete channel</button>
     </div>
 </template>
 

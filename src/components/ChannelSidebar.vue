@@ -2,11 +2,12 @@
     import LibraryAdd from "../assets/LibraryAdd.svg"
     import api from '@/boot/axios';
     import { useAuthStore } from '@/stores/auth-store'
-    import ChannelLink from "./ChannelLink.vue";
-    import { onBeforeMount, ref } from 'vue';
-    import Spinner from './Spinner.vue';
     import { useChannelStore } from '@/stores/channel'
+    import { onBeforeMount, ref } from 'vue';
+    import ChannelLink from "./ChannelLink.vue";
+    import Spinner from './Spinner.vue';
     import AddChannel from "./AddChannel.vue";
+    import ModifyChannel from "./ModifyChannel.vue";
 
     const channels = ref<ChannelLink[]>([]);
     const isLoaded = ref(false);
@@ -88,7 +89,7 @@
             <h3>New channel</h3>
         </button>
     </div>
-    <AddChannel v-if="isCreatingNewChannel" class="addChannelDiv"/>
+    <ModifyChannel v-if="isCreatingNewChannel" class="addChannelDiv"/>
 </template>
 
 <style scoped>
