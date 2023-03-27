@@ -1,27 +1,34 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-
-type ChannelInfos = {
-    name: string;
-    img: string;
-    id: number;
-    creator: string;
+type State = {
+    selectedChannel: Channel,
+    channels: Channel[],
 }
 
 export const useChannelStore = defineStore("channel", {
-    state: () => ({
-        name: "Channel Name",
-        id: 0,
-        img: "default.jpg",
-        creator: "Unknown"
+    state: (): State => ({
+        selectedChannel: {
+            name: "Channel Name",
+            id: -1,
+            img: "default.jpg",
+            creator: "Unknown",
+            users: []
+        },
+        channels: []
+
     }),
     actions: {
-        selectedChannel(channel:ChannelInfos) {
-            this.name = channel.name;
-            this.id = channel.id;
-            this.img = channel.img;
-            this.creator = channel.creator;
+        setSelectedChannel(id: string) {
+            const selectedChannel = this.channels.find((channel) => id === channel.id.toString())
+
+            if(!selectedChannel) return;
+
+            this.selectedChannel = selectedChannel;
+        },
+        setChannels(channels: Channel[]) {
+            this.channels.push()
         }
+
     }
 })

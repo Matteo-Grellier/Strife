@@ -6,42 +6,25 @@
     import { onBeforeMount, ref } from 'vue';
     import Spinner from './Spinner.vue';
     import { useChannelStore } from '@/stores/channel'
+    import {useRoute, useRouter} from "vue-router";
 
-    const channels = ref<ChannelLink[]>([]);
-    const isLoaded = ref(false);
-    const authToken = useAuthStore().getToken();
-    const config = {
-        headers: {
-            Authorization: `Bearer ${authToken}`
-        }
-    };
-
-    onBeforeMount(async () => {
-        await getChannels();
-        isLoaded.value = true
-    })
-    const getChannels = async () => {
-        await api.get('/protected/user/channels', config)
-        .then(function(response){
-            channels.value = response.data;
-        })
-        .catch(function(error) {
-            console.log('Error:', error);
-        });
-    }
-    interface ChannelLink {
-        name: string;
-        img: string;
-        id: number;
-        creator: string;
-    }
-
+    const route = useRoute();
     const channelStore = useChannelStore();
 
-    function selectedChannel(channel:ChannelLink){
-        channelStore.selectedChannel(channel)
-    }
+    const channels = ref<Channel[]>([]);
+    const isLoaded = ref(false);
 
+    onBeforeMount(async () => {
+        channels.value = channelStore.channels;
+        console.log(channels);
+        const channelId = route.params.channelId;
+
+        isLoaded.value = true
+
+        if(!channelId) return;
+
+        channelStore.setSelectedChannel(channelId as string)
+    })
 </script>
 
 <template>
@@ -58,7 +41,11 @@
         <div v-if="channels.length > 0">
             <ul class="channelList" v-if="isLoaded">
             <li >
-                <ChannelLink @click="selectedChannel(channel)" v-for="channel in channels" :key="channel.id" :channelName="channel.name" :channelImg="channel.img"/>
+                <ChannelLink v-for="channel in channels" 
+                :key="channel.id" 
+                :channelName="channel.name" 
+                :channelImg="channel.img" 
+                :channelId="channel.id"/>
             </li>
         </ul>
         </div>

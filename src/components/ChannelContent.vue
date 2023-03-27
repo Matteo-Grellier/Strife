@@ -1,47 +1,31 @@
 <script lang="ts" setup>
-import api from '@/boot/axios';
-import { onBeforeMount, reactive, onMounted, ref } from 'vue';
+import api, {webSocketApi} from '@/boot/axios';
+import { onBeforeMount, reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth-store';
+
+import { useRouter } from 'vue-router';
 
 import Message from './Message.vue';
 import Spinner from './Spinner.vue';
+import Button from './Button.vue';
+import { useMessagesStore } from '@/stores/messages';
 
 const authStore = useAuthStore();
+const messagesStore = useMessagesStore();
+const router = useRouter();
 
 type Props = {
     channelId: number,
+    creator: string,
 }
 
 const props = defineProps<Props>();
 
-const messages: Message[] = reactive([])
-const isLoaded = ref(false);
+const isLoaded = ref(true);
+const currentUserIsModerator = ref(false);
 
-onBeforeMount(async () => {
-    await setMessages();
-    isLoaded.value = true
-})
-
-const setMessages = async () => {
-    const messagesToAdd = await getMessagesFromApi();
-    messages.unshift(...messagesToAdd);
-}
-
-const getMessagesFromApi = async () => {
-    const offset = messages.length;
-
-    const config = {
-        headers: { Authorization: `Bearer ${authStore.getToken()}` }
-    };
-    const response = await api.get(`/protected/channel/${props.channelId}/messages/${offset}`, config)
-
-    return response.data;
-}
-
-const loadOlderMessages = async () => {
-    isLoaded.value = false
-    await setMessages();
-    isLoaded.value = true
+const createWebSocketConnection = async () => {
+    webSocketApi.get(`/ws/channel/${props.channelId}/token/${authStore.token}`)
 }
 
 const onScroll = async ({target}: Event) => {
@@ -49,8 +33,8 @@ const onScroll = async ({target}: Event) => {
 
     //The logic to know if we are at the top of the div is reversed because we used a trick in css (we use column-reverse) : 
     //So we want to know if we are at the bottom of the div !
-    if(currentElement.scrollTop - currentElement.clientHeight <= -currentElement.scrollHeight) {
-        await loadOlderMessages();
+    if((currentElement.scrollHeight + currentElement.scrollTop) - currentElement.clientHeight <= 1) {
+        await messagesStore.loadOlderMessages(props.channelId.toString());
     }
 }
 
@@ -62,9 +46,10 @@ const onScroll = async ({target}: Event) => {
                 <div v-if="!isLoaded" class="channel-spinner">
                     <Spinner/>
                 </div>
-                <Message v-for="(message, index) of messages" 
+                <Message v-for="(message, index) of messagesStore.messages" 
                 :message="message" 
-                :previousMessage="(index > 0) ? messages[index-1] : undefined"
+                :previousMessage="(index > 0) ? messagesStore.messages[index-1] : undefined"
+                :showToolbar="currentUserIsModerator"
                 />
             </div>
         </div>
@@ -76,7 +61,7 @@ const onScroll = async ({target}: Event) => {
 .channel-content {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column-reverse;
