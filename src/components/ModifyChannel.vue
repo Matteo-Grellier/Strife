@@ -6,6 +6,7 @@
 
     const channelName = ref('');
     const channelImg = ref('');
+    const channelColor = ref('');
 
     const JWT = useAuthStore().getToken();
     const config = {
@@ -15,12 +16,15 @@
     };
 
     const channelStore = useChannelStore();
-    const users = ref(channelStore.getSelectedChannel()[0].);
+    const selectedChannelId = ref(channelStore.getSelectedChannel()[0].id);
 
     function onSubmit() {
-        api.put('/protected/channel', {
+        api.post('/protected/channel/' + selectedChannelId + '/update_metadata', {
             name: channelName.value,
-            img: channelImg.value
+            img: channelImg.value,
+            theme: {
+                primary_color: channelColor.value,
+            }
         }, config)
         .then(function (response) {
             console.log(response);
@@ -30,14 +34,27 @@
             console.log(error);
         });
     }
+
+    function onDelete() {
+        api.delete('/protected/channel/' + selectedChannelId)
+        .then(function (response) {
+            console.log(response);
+            window.location.reload()
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
 </script>
 
 <template >
     <div class="addChannelDiv">
         <input type="text" v-model="channelName" placeholder="Channel Name" class="input">
         <input type="text" v-model="channelImg" placeholder="Channel Image" class="input">
-        <button v-on:click="onSubmit" class="btn">Modify channel</button>
-        <button v-on:click="onSubmit" class="btn-del">Delete channel</button>
+        <input type="color" v-model="channelColor">
+        <button @click="onSubmit" class="btn">Modify channel</button>
+        <button @click="onDelete" class="btn-del">Delete channel</button>
     </div>
 </template>
 
@@ -66,6 +83,6 @@
 
     .btn-del {
         margin-top: 2%;
-        background-color: #DD4A29;
+        background-color: #ec4621;
     }
 </style>
