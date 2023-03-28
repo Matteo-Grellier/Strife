@@ -34,7 +34,7 @@ function onSubmit(values: any) {
                 </div>
                 <h2 style="margin-bottom: -25px;">Password :</h2>
                 <div class="form-group">
-                    <Field name="password" type="text" class="form-control" :class="{ 'is-invalid': errors.password }" />
+                    <Field name="password" type="password" class="form-control2" :class="{ 'is-invalid': errors.password }" />
                     <div class="invalid-feedback">{{ errors.password }}</div>
                 </div>
                 <div class="form-group">
@@ -114,5 +114,14 @@ function onSubmit(values: any) {
     width: auto;
     display: flex;
     justify-content: center;
+}
+
+.form-control2 {
+    background-color: var(--color-light-blue);
+    border-radius: 15px;
+    height: 55px;
+    border-style: none;
+    color: white;
+    font-size: large;
 }
 </style>
