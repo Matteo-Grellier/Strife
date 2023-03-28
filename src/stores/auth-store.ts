@@ -28,11 +28,11 @@ export const useAuthStore = defineStore("auth", {
         });
       setTimeout(() => {
         this.refreshToken();
-      }, 2000 * 60 * 60);
+      }, 1000 * 60 * 60);
     },
 
     getToken: () => {
-      return (localStorage.getItem("token") || "null");
+      return localStorage.getItem("token") || "null";
     },
     refreshToken() {
       const JWT = this.getToken();
@@ -45,11 +45,11 @@ export const useAuthStore = defineStore("auth", {
 
       api.post("/protected/extend_session", {}, config).then((user) => {
         this.token = user.data.token;
-        localStorage.setItem("token", JSON.stringify(user.data.token));
+        localStorage.setItem("token", user.data.token);
       });
       setTimeout(() => {
         this.refreshToken();
-      }, 2000 * 60 * 60);
+      }, 1000 * 60 * 60);
     },
     logout() {
       this.token = null;
