@@ -44,7 +44,7 @@ export const useAuthStore = defineStore("auth", {
       };
 
       api.post("/protected/extend_session", {}, config).then((user) => {
-        this.token = user.data.token;
+        this.token = JSON.stringify(user.data.token);
         localStorage.setItem("token", JSON.stringify(user.data.token));
       });
       setTimeout(() => {
