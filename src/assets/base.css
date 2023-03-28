@@ -1,12 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap'); /* Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap'); /* Open Sans */
 
 :root {
+  /* Theme colors */
   --color-main-blue: #2B3542;
   --color-dark-blue: #1F2630;
   --color-light-blue: #3D4B5F;
   --color-yellow: #FFB400;
   --color-grey: #BEBEBE;
   --color-white-grey: #EDEDED;
+
+  /* utils color */
+  --color-red: #ff7676; /* useful for button to delete */
+  --color-empty-message: #606e80;
 
   --main-font: "Montserrat";
   --message-font: "Open Sans";
