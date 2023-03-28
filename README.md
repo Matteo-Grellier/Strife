@@ -29,5 +29,5 @@ Pour lancer le projet il suffit de se placer dans le projet et d'effectuer la co
 
 - `Mattéo GRELLIER` alias [@Matteo-Grellier](https://github.com/Matteo-Grellier)
 - `Louis BROCHARD` alias [@LBROCHARD](https://github.com/LBROCHARD)
-- `Mathéo Légère` alias [@matheoleger](https://github.com/matheoleger)
+- `Mathéo Léger` alias [@matheoleger](https://github.com/matheoleger)
 - `Yasser Youssouf mohamed` alias [@YasserSeryas](https://github.com/YasserSeryas)
