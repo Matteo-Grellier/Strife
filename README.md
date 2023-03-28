@@ -1,40 +1,41 @@
-# .
+# But du projet
 
-This template should help get you started developing with Vue 3 in Vite.
+Il faut réaliser une application type discord avec Vuejs, un framework javascript. L'api est déjà crée, il nous suffit de jouer avec l'api pour afficher les données, les crées. Pour ce faire nous sommes une équipe de 4.
+Notre projet s'appelle donc ✨ Strife ✨ et aura c'est différentes fonctionnalités :
 
-## Recommended IDE Setup
+- Gestion des serveurs
+  - L'utilisateur pourra :
+    - Crée un serveur
+    - Supprimer un serveur
+    - Se faire inviter dans un serveur
+    - Se faire bannir
+- Sur un serveur :
+  - L'utilisateur pourra :
+    - Modifier un message qu'il à envoyé
+    - Supprimer un message qu'il à envoyé
+    - Envoyer des images
+    - Envoyer des GIF
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+# Réalisation
 
-## Type Support for `.vue` Imports in TS
+- <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white"/>
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"/>
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- <img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+# Lancer le projet
 
-## Customize configuration
+il faut télécharger le projet :
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- Version release 👉 [ici](https://github.com/Matteo-Grellier/Strife/archive/refs/tags/v1.0.0.zip)
 
-## Project Setup
+Pour lancer le projet il suffit de se placer dans le projet et d'effectuer la commande `npm run install` suivis de `npm run dev`.
+🎉 L'application est maintenant lancé. 🎉 ou sinon l'application est disponible sur Vercel à cette [URL](https://strife-eight.vercel.app/).
 
-```sh
-npm install
-```
+# Equipe
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+- `Mattéo GRELLIER` alias [@Matteo-Grellier](https://github.com/Matteo-Grellier)
+- `Louis BROCHARD` alias [@LBROCHARD](https://github.com/LBROCHARD)
+- `Mathéo Légère` alias [@matheoleger](https://github.com/matheoleger)
+- `Yasser Youssouf mohamed` alias [@YasserSeryas](https://github.com/YasserSeryas)
